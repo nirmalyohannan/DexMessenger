@@ -1,5 +1,6 @@
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
+import 'package:dex_messenger/data/global_variables.dart';
 import 'package:dex_messenger/data/states/google_login_in.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,6 +27,7 @@ class GoogleSignInButton extends StatelessWidget {
         ),
       ),
       onTap: () {
+        isLoggedInNow = true;
         context.read<GoogleSignInProvider>().googleLogIn();
 
         // Navigator.push(

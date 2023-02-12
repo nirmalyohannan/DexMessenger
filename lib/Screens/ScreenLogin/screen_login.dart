@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:dex_messenger/Screens/ScreenHome/screen_home.dart';
 import 'package:dex_messenger/Screens/ScreenLogin/screen_login.dart';
 import 'package:dex_messenger/Screens/ScreenLogin/widgets/widget_login.dart';
+import 'package:dex_messenger/Screens/ScreenLogin/widgets/widget_user_info.dart';
+import 'package:dex_messenger/data/global_variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +25,9 @@ class ScreenLogin extends StatelessWidget {
               );
             } else if (snapshot.hasData) {
               log(":::::::::Logged In");
-              return const Text("Logged In\nDisplay User Details");
+              return isLoggedInNow
+                  ? const WidgetUserInfo()
+                  : const ScreenHome();
             } else if (snapshot.hasError) {
               log(":::::::::SomethingWrong");
 
