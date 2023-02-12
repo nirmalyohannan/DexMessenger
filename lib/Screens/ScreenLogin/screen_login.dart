@@ -1,11 +1,12 @@
 import 'dart:developer';
-import 'package:dex_messenger/Screens/ScreenHome/screen_home.dart';
+
+import 'package:dex_messenger/Screens/ScreenLogin/screen_login.dart';
 import 'package:dex_messenger/Screens/ScreenLogin/widgets/widget_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ScreenLogin extends StatelessWidget {
-  const ScreenLogin({super.key});
+class ScreenLoginUserInfo extends StatelessWidget {
+  const ScreenLoginUserInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class ScreenLogin extends StatelessWidget {
               );
             } else if (snapshot.hasData) {
               log(":::::::::Logged In");
-              return const ScreenHome();
+              return const Text("Logged In\nDisplay User Details");
             } else if (snapshot.hasError) {
               log(":::::::::SomethingWrong");
 
@@ -37,3 +38,10 @@ class ScreenLogin extends StatelessWidget {
     );
   }
 }
+
+
+
+//---------------------------------
+
+
+
