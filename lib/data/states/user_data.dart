@@ -1,6 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class UserData extends ChangeNotifier {
-  String userEmail = '';
-  String userName = '';
+class UserDataProvider extends ChangeNotifier {
+  var user = FirebaseAuth.instance.currentUser;
 }
