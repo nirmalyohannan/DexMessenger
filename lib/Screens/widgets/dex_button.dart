@@ -11,6 +11,7 @@ class DexButton extends StatelessWidget {
       this.minWidth,
       this.borderRadius,
       this.padding,
+      this.color,
       this.height});
   final Widget child;
   final bool isDisabled;
@@ -19,6 +20,7 @@ class DexButton extends StatelessWidget {
   final double? height;
   final BorderRadius? borderRadius;
   final EdgeInsets? padding;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
@@ -28,7 +30,7 @@ class DexButton extends StatelessWidget {
           RoundedRectangleBorder(borderRadius: borderRadius ?? kradiusMedium),
       disabledColor: colorDisabledBG,
       onPressed: isDisabled ? null : onPressed,
-      color: colorPrimary,
+      color: color ?? colorPrimary,
       textColor: colorTextPrimary,
       minWidth: minWidth,
       height: height,
