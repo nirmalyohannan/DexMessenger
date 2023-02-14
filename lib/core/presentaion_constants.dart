@@ -12,8 +12,12 @@ EdgeInsets kScreenPaddingVertMedium = const EdgeInsets.symmetric(vertical: 30);
 EdgeInsets kScreenPaddingHoriMedium =
     const EdgeInsets.symmetric(horizontal: 30);
 EdgeInsets kScreenPaddingAllMedium = const EdgeInsets.all(30);
+EdgeInsets kScreenPaddingAllLight = const EdgeInsets.all(15);
+
 //---------------------------
 BorderRadius kradiusMedium = BorderRadius.circular(10);
+BorderRadius kradiusCircular = BorderRadius.circular(1000);
 //----------------------------
 EdgeInsets kPaddingButtonSmall = const EdgeInsets.all(5);
 EdgeInsets kPaddingButtonMedium = const EdgeInsets.all(10);
+//------------------------------------------

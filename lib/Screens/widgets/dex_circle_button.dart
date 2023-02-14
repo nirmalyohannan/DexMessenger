@@ -1,4 +1,5 @@
 import 'package:dex_messenger/core/colors.dart';
+import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:flutter/material.dart';
 
 class DexCircleButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class DexCircleButton extends StatelessWidget {
   final double? circleRadius;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
         onTap: onPressed,
         child: CircleAvatar(
           backgroundColor: backgroundColor ?? colorPrimary,

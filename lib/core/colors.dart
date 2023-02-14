@@ -13,3 +13,5 @@ Color colorTextSecondary = const Color.fromARGB(255, 164, 164, 164);
 //---------
 Color colorOTPTimerAlert = const Color.fromARGB(255, 163, 2, 2);
 Color colorOTPTimer = const Color.fromARGB(255, 0, 160, 35);
+//-------------------------------
+Color colorIcon1 = const Color.fromARGB(255, 86, 94, 112);

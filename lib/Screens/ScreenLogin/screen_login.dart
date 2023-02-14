@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dex_messenger/Screens/ScreenHome/screen_home.dart';
-import 'package:dex_messenger/Screens/ScreenLogin/screen_login.dart';
 import 'package:dex_messenger/Screens/ScreenLogin/widgets/widget_login.dart';
 import 'package:dex_messenger/Screens/ScreenLogin/widgets/widget_user_info.dart';
 import 'package:dex_messenger/data/global_variables.dart';
