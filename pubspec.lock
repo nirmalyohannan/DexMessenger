@@ -97,6 +97,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore:
+    dependency: "direct main"
+    description:
+      name: cloud_firestore
+      sha256: ef01d98a561554e1c4b760941128957dd7ac66d807ffc7a93656964ba8cde51f
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.0"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      sha256: "9b64e7f5e02dd7199a4fc78a110a56fb52e7d62ee9c128f701606bdf5843d16a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.11.0"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      sha256: "0c65294487124d63aa6b7d0e999c2f5ee56f879b48133bef54068b2e16914015"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0"
   collection:
     dependency: transitive
     description:
@@ -209,30 +233,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  firebase_database:
+  firebase_storage:
     dependency: "direct main"
     description:
-      name: firebase_database
-      sha256: "5fa2c5128d0057b9af2fdc9124282ce8073f73adb8b0456d78120d1e578f5cda"
+      name: firebase_storage
+      sha256: "5b5ab9f34100d22ca47bccf32d148e5b3f6d852a988055d619fa61b01cd4fe0e"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.10"
-  firebase_database_platform_interface:
+    version: "11.0.11"
+  firebase_storage_platform_interface:
     dependency: transitive
     description:
-      name: firebase_database_platform_interface
-      sha256: d7e03c4422a82b18624f13dc3c022d2dd98f8e28e71dd265d1ac341269d8a92a
+      name: firebase_storage_platform_interface
+      sha256: "9e58a2b184514b8bcea768dfe676cf814b5a8562440cf32f045b531f2178d599"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2+18"
-  firebase_database_web:
+    version: "4.1.27"
+  firebase_storage_web:
     dependency: transitive
     description:
-      name: firebase_database_web
-      sha256: "383bf00aa419d283818b343845daef1b3e897fab48575ff8d93d89556ceda1cf"
+      name: firebase_storage_web
+      sha256: f559ab5ad244841165fa88630cac4b337599d164dbadab1e097beb92a97b5f29
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1+20"
+    version: "3.3.20"
   flutter:
     dependency: "direct main"
     description: flutter

@@ -1,7 +1,7 @@
 import 'package:dex_messenger/Screens/ScreenSplash/screen_splash.dart';
 import 'package:dex_messenger/core/colors.dart';
-import 'package:dex_messenger/data/states/google_login_in.dart';
-import 'package:dex_messenger/data/states/user_data.dart';
+
+import 'package:dex_messenger/data/states/user_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,10 +19,8 @@ class DexMessenger extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ListenableProvider<GoogleSignInProvider>(
-            create: (context) => GoogleSignInProvider()),
-        ListenableProvider<UserDataProvider>(
-            create: (context) => UserDataProvider()),
+        ListenableProvider<UserInfoProvider>(
+            create: (context) => UserInfoProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dex_messenger/Screens/widgets/dex_button.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:flutter/material.dart';
@@ -83,10 +85,38 @@ class WidgetDirectChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: 10,
-      separatorBuilder: (context, index) => kGapHeight10,
-      itemBuilder: (context, index) => const ChatTile(),
-    );
+    return StreamBuilder<Object>(
+        stream: FirebaseFirestore.instance.collection("users").snapshots(),
+        builder: (context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            log("Chat Tiles are connecting");
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasData) {
+            log("Chat Tiles are loaded");
+            return ListView.separated(
+              itemCount: snapshot.data!.docs.length,
+              separatorBuilder: (context, index) => DexButton(
+                child: const Text("✅"),
+                onPressed: () {
+                  FirebaseFirestore.instance
+                      .collection('users')
+                      .doc('userVV')
+                      .set({"Date": DateTime.now().toString()});
+                  // snapshot.data!.docs('userVV').set({"Name": "Kuku"});
+                },
+              ),
+              itemBuilder: (context, index) {
+                return const ChatTile();
+              },
+            );
+          } else {
+            log("Chat Tiles coudnt load");
+            return const Center(
+              child: Text("Error Loading"),
+            );
+          }
+        });
   }
 }

@@ -1,11 +1,10 @@
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/global_variables.dart';
-import 'package:dex_messenger/data/states/google_login_in.dart';
+import 'package:dex_messenger/utils/ScreenLogin/dex_google_login_in.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class GoogleSignInButton extends StatelessWidget {
   const GoogleSignInButton({
@@ -25,10 +24,7 @@ class GoogleSignInButton extends StatelessWidget {
       ),
       onTap: () {
         isLoggedInNow = true;
-        context.read<GoogleSignInProvider>().googleLogIn();
-
-        // Navigator.push(
-        //     context, dexRouteSlideFromLeft(nextPage: ScreenOTP(otp: 1234)));
+        DexGoogleSignIn.googleLogIn();
       },
     );
   }

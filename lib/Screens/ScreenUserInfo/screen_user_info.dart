@@ -1,21 +1,23 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/Screens/ScreenHome/screen_home.dart';
 import 'package:dex_messenger/Screens/widgets/dex_circle_button.dart';
 import 'package:dex_messenger/Screens/widgets/dex_routes.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 
-import 'package:dex_messenger/data/states/user_data.dart';
-
+import 'package:dex_messenger/data/states/user_info_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class WidgetUserInfo extends StatelessWidget {
-  const WidgetUserInfo({super.key});
+class ScreenUserInfo extends StatelessWidget {
+  ScreenUserInfo({super.key});
+  final TextEditingController userNameTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +37,13 @@ class WidgetUserInfo extends StatelessWidget {
                   "User Info",
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
-                const UserInfoDpUsernameSection(),
+                UserInfoDpUsernameSection(
+                  userNameTextController: userNameTextController,
+                ),
                 kGapHeight30,
-                const _SubmitButtonSection()
+                _SubmitButtonSection(
+                  userNameTextController: userNameTextController,
+                )
               ],
             ),
           ),
@@ -48,13 +54,17 @@ class WidgetUserInfo extends StatelessWidget {
 }
 
 class _SubmitButtonSection extends StatelessWidget {
-  const _SubmitButtonSection();
+  const _SubmitButtonSection({required this.userNameTextController});
 
+  final TextEditingController userNameTextController;
   @override
   Widget build(BuildContext context) {
     return DexCircleButton(
       circleRadius: 30,
       onPressed: () {
+        String uid = FirebaseAuth.instance.currentUser!.uid;
+        FirebaseFirestore.instance.collection('users').doc(uid).set(
+            {'name': userNameTextController.text, 'uid': uid, 'image': ''});
         Navigator.pushAndRemoveUntil(
             context,
             dexRouteSlideFromLeft(nextPage: const ScreenHome()),
@@ -69,17 +79,32 @@ class _SubmitButtonSection extends StatelessWidget {
   }
 }
 
-class UserInfoDpUsernameSection extends StatelessWidget {
+class UserInfoDpUsernameSection extends StatefulWidget {
   const UserInfoDpUsernameSection({
     super.key,
+    required this.userNameTextController,
   });
+  final TextEditingController userNameTextController;
+
+  @override
+  State<UserInfoDpUsernameSection> createState() =>
+      _UserInfoDpUsernameSectionState();
+}
+
+class _UserInfoDpUsernameSectionState extends State<UserInfoDpUsernameSection> {
+  @override
+  void initState() {
+    widget.userNameTextController.text =
+        context.read<UserInfoProvider>().userName ??
+            FirebaseAuth.instance.currentUser!.displayName ??
+            '';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserDataProvider>(
+    return Consumer<UserInfoProvider>(
       builder: (context, userData, child) {
-        final TextEditingController userNameTextController =
-            TextEditingController(text: userData.user!.displayName);
         return Column(
           children: [
             kGapHeight30,
@@ -95,6 +120,7 @@ class UserInfoDpUsernameSection extends StatelessWidget {
                         source: ImageSource.gallery);
                     if (xFile != null) {
                       userData.setUserDpFile = File(xFile.path);
+
                       log("userData.userDp updated");
                     } else {
                       log("xFile is null");
@@ -114,7 +140,7 @@ class UserInfoDpUsernameSection extends StatelessWidget {
             Padding(
               padding: kScreenPaddingHoriMedium,
               child: _UsernameTextField(
-                  userNameTextController: userNameTextController),
+                  userNameTextController: widget.userNameTextController),
             ),
           ],
         );
@@ -152,7 +178,7 @@ class _UsernameTextField extends StatelessWidget {
 class _DpImage extends StatelessWidget {
   const _DpImage({required this.userData});
 
-  final UserDataProvider userData;
+  final UserInfoProvider userData;
 
   @override
   Widget build(BuildContext context) {

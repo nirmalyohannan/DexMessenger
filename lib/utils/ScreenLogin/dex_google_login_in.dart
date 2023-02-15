@@ -1,17 +1,16 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleSignInProvider extends ChangeNotifier {
-  final googleSignIn = GoogleSignIn();
-  GoogleSignInAccount? user;
+class DexGoogleSignIn {
+  static final googleSignIn = GoogleSignIn();
+  static GoogleSignInAccount? user;
 
-  Future googleLogIn() async {
+  static Future googleLogIn() async {
     final tempGoogleUser = await googleSignIn.signIn();
     if (tempGoogleUser == null) {
-      return;
+      log("Null in google Sign In function");
     } else {
       user = tempGoogleUser;
 
@@ -25,12 +24,10 @@ class GoogleSignInProvider extends ChangeNotifier {
       } catch (e) {
         log(e.toString());
       }
-
-      notifyListeners();
     }
   }
 
-  Future googleLogOut() async {
+  static Future googleLogOut() async {
     log("Logging out........");
     await googleSignIn.disconnect();
     await FirebaseAuth.instance.signOut();

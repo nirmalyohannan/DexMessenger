@@ -4,7 +4,8 @@ import 'package:dex_messenger/Screens/ScreenHome/widgets/home_screen_tabbar_sect
 import 'package:dex_messenger/Screens/ScreenSettings/screen_settings.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
-import 'package:dex_messenger/data/states/user_data.dart';
+import 'package:dex_messenger/data/states/user_info_provider.dart';
+import 'package:dex_messenger/utils/listen_update_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -15,48 +16,52 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-      padding: kScreenPaddingAllLight,
-      child: Column(
-        children: [
-          Consumer<UserDataProvider>(
-            builder: (context, value, child) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ClipRRect(
-                    borderRadius: kradiusCircular,
-                    child: Image.network(
-                      value.user!.photoURL ??
-                          "https://cdn.statusqueen.com/dpimages/thumbnail/No_Dp_-1507.jpg",
-                      width: MediaQuery.of(context).size.width / 6,
+    listenUpdateUserInfo(context); //To write in Background Service
+
+    return SafeArea(
+      child: Scaffold(
+          body: Padding(
+        padding: kScreenPaddingAllLight,
+        child: Column(
+          children: [
+            Consumer<UserInfoProvider>(
+              builder: (context, value, child) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ClipRRect(
+                      borderRadius: kradiusCircular,
+                      child: Image.network(
+                        value.user!.photoURL ??
+                            "https://cdn.statusqueen.com/dpimages/thumbnail/No_Dp_-1507.jpg",
+                        width: MediaQuery.of(context).size.width / 6,
+                      ),
                     ),
-                  ),
-                  AutoSizeText(
-                    "${value.user!.displayName}",
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const _SettingsButton(),
-                ],
-              );
-            },
-          ),
-          kGapHeight10,
-          const HomeSearchSection(),
+                    AutoSizeText(
+                      value.userName ?? "No Name",
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    const _SettingsButton(),
+                  ],
+                );
+              },
+            ),
+            kGapHeight10,
+            const HomeSearchSection(),
 
-          const HomeScreenTabBarSection(),
+            const HomeScreenTabBarSection(),
 
-          //-------------------------------------------------------------
-          // kGapHeight30,
+            //-------------------------------------------------------------
+            // kGapHeight30,
 
-          // const Text(
-          //     "You Have been Succefully Loggedin\nThe App is under Development and will be functional very soon."),
-          // LottieBuilder.network(
-          //     "https://assets9.lottiefiles.com/private_files/lf30_y9czxcb9.json"),
-        ],
-      ),
-    ));
+            // const Text(
+            //     "You Have been Succefully Loggedin\nThe App is under Development and will be functional very soon."),
+            // LottieBuilder.network(
+            //     "https://assets9.lottiefiles.com/private_files/lf30_y9czxcb9.json"),
+          ],
+        ),
+      )),
+    );
   }
 }
 
