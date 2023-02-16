@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void listenUpdateUserInfo(BuildContext context) {
+void listenUserInfo(BuildContext context) {
   String uid = FirebaseAuth.instance.currentUser!.uid;
   FirebaseFirestore.instance.collection('users').doc(uid).snapshots().listen(
     (event) {

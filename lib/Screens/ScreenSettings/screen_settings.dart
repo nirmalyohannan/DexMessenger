@@ -1,8 +1,10 @@
 import 'package:dex_messenger/Screens/ScreenMain/screen_main.dart';
 import 'package:dex_messenger/Screens/ScreenUserInfo/screen_user_info.dart';
 import 'package:dex_messenger/Screens/widgets/dex_button.dart';
+import 'package:dex_messenger/data/states/user_info_provider.dart';
 import 'package:dex_messenger/utils/ScreenLogin/dex_google_login_in.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ScreenSettings extends StatelessWidget {
   const ScreenSettings({super.key});
@@ -28,6 +30,7 @@ class ScreenSettings extends StatelessWidget {
           DexButton(
             child: const Text("Log Out"),
             onPressed: () async {
+              context.read<UserInfoProvider>().clear();
               await DexGoogleSignIn.googleLogOut();
               // ignore: use_build_context_synchronously
               Navigator.pushAndRemoveUntil(

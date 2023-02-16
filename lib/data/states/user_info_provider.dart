@@ -1,13 +1,9 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserInfoProvider extends ChangeNotifier {
-  User? user = FirebaseAuth.instance.currentUser;
-
   File? userDpFile;
-
   String? uid;
   String? userName;
 
@@ -18,6 +14,13 @@ class UserInfoProvider extends ChangeNotifier {
 
   set setUserDpFile(File file) {
     userDpFile = file;
+    notifyListeners();
+  }
+
+  void clear() {
+    userDpFile = null;
+    uid = null;
+    userName = null;
     notifyListeners();
   }
 }

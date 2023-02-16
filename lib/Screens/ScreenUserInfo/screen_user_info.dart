@@ -183,8 +183,10 @@ class _DpImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 2;
+    User? user = FirebaseAuth.instance.currentUser;
 
     if (userData.userDpFile != null) {
+      log("UserInfoScreen: UserInfo is not null");
       var dpImage = userData.userDpFile;
       return ClipRRect(
         borderRadius: BorderRadius.circular(200),
@@ -195,23 +197,25 @@ class _DpImage extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       );
-    } else if (userData.user == null) {
+    } else if (user == null) {
+      log("UserInfoScreen: user is null");
       return Icon(
         Icons.account_circle,
         color: colorSecondaryBG,
         size: width,
       );
-    } else if (userData.user!.photoURL == null) {
+    } else if (user.photoURL == null) {
       return Icon(
         Icons.account_circle,
         color: colorSecondaryBG,
         size: width,
       );
     }
+    log(":::${user.displayName}");
     return ClipRRect(
-      borderRadius: BorderRadius.circular(200),
+      borderRadius: kradiusCircular,
       child: Image.network(
-        userData.user!.photoURL!,
+        user.photoURL!,
         width: width,
         height: width,
         fit: BoxFit.cover,

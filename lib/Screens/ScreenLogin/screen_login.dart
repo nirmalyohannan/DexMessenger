@@ -29,13 +29,9 @@ class ScreenLogin extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Hero(
-                    flightShuttleBuilder: flightShuttleBuilder,
-                    tag: 'dexLogo',
-                    child: Image.asset(
-                      assetDexLogo,
-                      width: 50,
-                    ),
+                  Image.asset(
+                    assetDexLogo,
+                    width: 50,
                   ),
                   kGapWidth10,
                   Text(

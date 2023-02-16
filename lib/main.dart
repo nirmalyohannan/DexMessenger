@@ -1,5 +1,6 @@
 import 'package:dex_messenger/Screens/ScreenSplash/screen_splash.dart';
 import 'package:dex_messenger/core/colors.dart';
+import 'package:dex_messenger/data/states/search_controller_provider.dart';
 
 import 'package:dex_messenger/data/states/user_info_provider.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class DexMessenger extends StatelessWidget {
       providers: [
         ListenableProvider<UserInfoProvider>(
             create: (context) => UserInfoProvider()),
+        ListenableProvider<SearchControllerProvider>(
+            create: (context) => SearchControllerProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
