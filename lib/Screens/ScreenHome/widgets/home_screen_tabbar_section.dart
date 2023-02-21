@@ -85,7 +85,7 @@ class WidgetDirectChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Object>(
+    return StreamBuilder(
         stream: FirebaseFirestore.instance.collection("users").snapshots(),
         builder: (context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -97,16 +97,7 @@ class WidgetDirectChat extends StatelessWidget {
             log("Chat Tiles are loaded");
             return ListView.separated(
               itemCount: snapshot.data!.docs.length,
-              separatorBuilder: (context, index) => DexButton(
-                child: const Text("✅"),
-                onPressed: () {
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc('userVV')
-                      .set({"Date": DateTime.now().toString()});
-                  // snapshot.data!.docs('userVV').set({"Name": "Kuku"});
-                },
-              ),
+              separatorBuilder: (context, index) => kGapHeight10,
               itemBuilder: (context, index) {
                 return const ChatTile();
               },

@@ -63,8 +63,11 @@ class _SubmitButtonSection extends StatelessWidget {
       circleRadius: 30,
       onPressed: () {
         String uid = FirebaseAuth.instance.currentUser!.uid;
-        FirebaseFirestore.instance.collection('users').doc(uid).set(
-            {'name': userNameTextController.text, 'uid': uid, 'image': ''});
+        FirebaseFirestore.instance.collection('users').doc(uid).set({
+          'name': userNameTextController.text,
+          'uid': uid,
+          'image': '',
+        });
         Navigator.pushAndRemoveUntil(
             context,
             dexRouteSlideFromLeft(nextPage: const ScreenHome()),
