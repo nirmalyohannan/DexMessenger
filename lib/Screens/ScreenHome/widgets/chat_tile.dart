@@ -1,49 +1,74 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dex_messenger/Screens/ScreenChat/screen_chat.dart';
+import 'package:dex_messenger/Screens/widgets/dex_routes.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
+import 'package:dex_messenger/data/models/message_model.dart';
+import 'package:dex_messenger/utils/ScreenHome/get_recipent_Info.dart';
 import 'package:flutter/material.dart';
 
 class ChatTile extends StatelessWidget {
-  const ChatTile({
-    super.key,
-  });
+  const ChatTile(
+      {super.key, required this.recipentUID, required this.lastMessage});
+  final String recipentUID;
+  final MessageModel lastMessage;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: ClipRRect(
-        borderRadius: kradiusCircular,
-        child: Image.network(
-          "https://i.guim.co.uk/img/media/63de40b99577af9b867a9c57555a432632ba760b/0_266_5616_3370/master/5616.jpg?width=620&quality=45&dpr=2&s=none",
-          width: 60,
-          height: 60,
-          fit: BoxFit.cover,
-        ),
-      ),
-      title: const Text(
-        "Name Here",
-        style: TextStyle(fontWeight: FontWeight.w400),
-      ),
-      subtitle: Text(
-        "This is the last message from user😍",
-        style: TextStyle(color: colorTextSecondary),
-      ),
-      trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text("09:30 PM"),
-          CircleAvatar(
-            radius: 11,
-            backgroundColor: colorPrimary,
-            child: Text(
-              '2',
-              style: TextStyle(
-                  color: colorTextPrimary,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
-            ),
-          )
-        ],
-      ),
-    );
+    return FutureBuilder(
+        future: getRecipentInfo(recipentUID),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListTile(
+              onTap: () => Navigator.push(
+                  context,
+                  dexRouteSlideFromLeft(
+                      nextPage: ScreenChat(
+                          recipentUID: recipentUID,
+                          recipentName: snapshot.data!.recipentName,
+                          recipentDpUrl: snapshot.data!.recipentDpUrl))),
+              leading: ClipRRect(
+                borderRadius: kradiusCircular,
+                child: CachedNetworkImage(
+                  imageUrl: snapshot.data!.recipentDpUrl,
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              title: Text(
+                snapshot.data!.recipentName,
+                style: const TextStyle(fontWeight: FontWeight.w400),
+              ),
+              subtitle: Text(
+                lastMessage.content,
+                style: TextStyle(color: colorTextSecondary),
+              ),
+              trailing: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("09:30 PM"),
+                  CircleAvatar(
+                    radius: 11,
+                    backgroundColor: colorPrimary,
+                    child: Text(
+                      '2',
+                      style: TextStyle(
+                          color: colorTextPrimary,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(
+                color: colorPrimary,
+              ),
+            );
+          }
+        });
   }
 }

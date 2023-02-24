@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Route dexRouteSlideFromLeft(
     {required nextPage,
-    Duration duration = const Duration(milliseconds: 300)}) {
+    Duration duration = const Duration(milliseconds: 100)}) {
   return PageRouteBuilder(
     transitionDuration: duration,
     pageBuilder: (context, animation, secondaryAnimation) => nextPage,

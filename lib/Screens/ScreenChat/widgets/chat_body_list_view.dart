@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dex_messenger/core/colors.dart';
+import 'package:dex_messenger/Screens/ScreenChat/widgets/message_card_chat_screen.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,6 +26,7 @@ class ChatBodyListView extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.separated(
+                shrinkWrap: true,
                 controller: scrollController,
                 reverse: true,
                 padding: const EdgeInsets.only(
@@ -33,34 +34,13 @@ class ChatBodyListView extends StatelessWidget {
                 itemCount: snapshot.data!.docs.length,
                 separatorBuilder: (context, index) => kGapHeight10,
                 itemBuilder: (context, index) {
+                  //--------------------
                   var messageData = snapshot.data!.docs[index];
                   MessageModel messageModel =
                       MessageModel.fromJson(messageData.data());
-                  return UnconstrainedBox(
-                    alignment: messageModel.fromUID == recipentUID
-                        ? Alignment.centerLeft
-                        : Alignment.centerRight,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width / 1.5,
-                      ),
-                      padding: kScreenPaddingAllLight,
-                      decoration: BoxDecoration(
-                          boxShadow: const [
-                            BoxShadow(
-                                spreadRadius: -1.5,
-                                blurRadius: 10,
-                                color: Colors.black87)
-                          ],
-                          color: messageModel.fromUID == recipentUID
-                              ? colorRecipentChatCard
-                              : colorUserChatCard,
-                          borderRadius: kradiusMedium),
-                      child: Flexible(
-                        child: Text(messageModel.content),
-                      ),
-                    ),
-                  );
+                  return MessageCardChatScreen(
+                      messageModel: messageModel, recipentUID: recipentUID);
+                  //---------------------
                 });
           }
           return const Center(

@@ -12,6 +12,8 @@ void listenUserInfo(BuildContext context) {
     (event) {
       log("listenUserInfo: Change Found");
       context.read<UserInfoProvider>().setUserName = event.data()!['name'];
+      context.read<UserInfoProvider>().setUID = event.data()!['uid'];
+      context.read<UserInfoProvider>().setUserDpUrl = event.data()!['image'];
     },
   );
 }

@@ -1,14 +1,10 @@
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/Screens/widgets/dex_circle_button.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
-import 'package:dex_messenger/data/models/message_model.dart';
-import 'package:dex_messenger/data/states/user_info_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:dex_messenger/utils/ScreenChat/send_message.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ChatBox extends StatelessWidget {
   const ChatBox({
@@ -50,63 +46,55 @@ class ChatBox extends StatelessWidget {
               ),
             ),
             kGapWidth10,
-            DexCircleButton(
-              circleRadius: 25,
-              child: const Icon(
-                Icons.send_rounded,
-                size: 30,
-              ),
-              onPressed: () async {
-                log("Send Button clicked");
-
-                if (textEditingController.text.isNotEmpty) {
-                  //--------------------------------
-
-                  //-------------------------------
-                  var userUID = FirebaseAuth.instance.currentUser!.uid;
-                  //-----------------
-                  MessageModel messageModel = MessageModel(
-                      type: 'string',
-                      content: textEditingController.text,
-                      fromUID: userUID,
-                      toUID: recipentUID,
-                      createdTime: DateTime.now().toString());
-                  //---------------------
-                  var chatsCollectionRef =
-                      FirebaseFirestore.instance.collection('chats');
-                  //---------------
-                  log('UserUID: $userUID');
-                  log('recipentUID: $recipentUID');
-
-                  var userRecipentChatCollecRef =
-                      chatsCollectionRef.doc(userUID).collection(recipentUID);
-                  // var userRecipentChatDoc = await userRecipentChatCollecRef.get();
-                  //------------
-                  var recipentUserChatCollecRef =
-                      chatsCollectionRef.doc(recipentUID).collection(userUID);
-                  // var recipentUserChatDoc = await recipentUserChatCollecRef.get();
-                  //--------------------------------------
-                  //----Adding the Message to user's and recipent's message collection in Firestore Database
-                  userRecipentChatCollecRef.add(messageModel.toJson());
-
-                  recipentUserChatCollecRef.add(messageModel.toJson());
-
-                  //---------------------------
-                  textEditingController.clear();
-                  // FocusScope.of(context).unfocus(); //To unfocus Keyboard
-
-                  //----To move chat list view builder to bottom
-                  scrollController.animateTo(
-                      scrollController.position.minScrollExtent,
-                      duration: const Duration(seconds: 1),
-                      curve: Curves.fastOutSlowIn);
-                  log("Send Button Execution Complete");
-                }
-              },
-            )
+            _SendButton(
+                textEditingController: textEditingController,
+                recipentUID: recipentUID,
+                scrollController: scrollController)
           ],
         ),
       ),
     ]);
+  }
+}
+
+class _SendButton extends StatelessWidget {
+  const _SendButton({
+    required this.textEditingController,
+    required this.recipentUID,
+    required this.scrollController,
+  });
+
+  final TextEditingController textEditingController;
+  final String recipentUID;
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    return DexCircleButton(
+      circleRadius: 25,
+      child: const FaIcon(
+        FontAwesomeIcons.paperPlane,
+        size: 30,
+      ),
+      onPressed: () async {
+        log("Send Button clicked");
+
+        if (textEditingController.text.isNotEmpty) {
+          sendMessage(
+              content: textEditingController.text, recipentUID: recipentUID);
+
+          textEditingController.clear();
+          // FocusScope.of(context).unfocus(); //To unfocus Keyboard
+
+          //----To move chat list view builder to bottom
+          scrollController.animateTo(scrollController.position.minScrollExtent,
+              duration: const Duration(seconds: 1),
+              curve: Curves.fastOutSlowIn);
+          log("Send Button Execution Complete");
+        } else {
+          log("ChatBox TextformField Empty");
+        }
+      },
+    );
   }
 }

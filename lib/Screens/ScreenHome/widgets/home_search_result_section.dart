@@ -42,9 +42,11 @@ class HomeSearchResultSection extends StatelessWidget {
                             .toLowerCase()))
                     .toList();
                 if (searchResult.isEmpty) {
-                  return Center(
-                      child: LottieBuilder.network(
-                          'https://assets9.lottiefiles.com/packages/lf20_fmieo0wt.json'));
+                  return SingleChildScrollView(
+                    child: Center(
+                        child: LottieBuilder.network(
+                            'https://assets9.lottiefiles.com/packages/lf20_fmieo0wt.json')),
+                  );
                 } else {
                   return ListView.separated(
                       shrinkWrap: true,

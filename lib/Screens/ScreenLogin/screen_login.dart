@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dex_messenger/Screens/ScreenLogin/widgets/google_signin_button.dart';
-import 'package:dex_messenger/Screens/widgets/flight_shuttle_builder.dart';
 import 'package:dex_messenger/core/assets.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';

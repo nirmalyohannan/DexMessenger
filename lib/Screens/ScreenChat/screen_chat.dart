@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/app_bar_section_chat_screen.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_body_list_view.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_box.dart';
-import 'package:dex_messenger/core/LiveEmojis/cry.dart';
-import 'package:dex_messenger/core/LiveEmojis/love.dart';
 
 import 'package:flutter/material.dart';
 

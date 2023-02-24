@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dex_messenger/Screens/ScreenChat/screen_chat.dart';
 import 'package:dex_messenger/Screens/widgets/dex_routes.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
@@ -24,8 +25,8 @@ class SearchResultTile extends StatelessWidget {
       },
       leading: ClipRRect(
         borderRadius: kradiusCircular,
-        child: Image.network(
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbwZ2QmjlShNNeUuEVF-RNFZrwJo3Y9k-LRw&usqp=CAU",
+        child: CachedNetworkImage(
+          imageUrl: searchResultModel.dpUrl,
           width: 60,
           height: 60,
           fit: BoxFit.cover,

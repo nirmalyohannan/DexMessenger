@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 class UserInfoProvider extends ChangeNotifier {
-  File? userDpFile;
+  String? userDpUrl;
   String? uid;
   String? userName;
 
@@ -12,13 +10,18 @@ class UserInfoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set setUserDpFile(File file) {
-    userDpFile = file;
+  set setUID(String newUID) {
+    uid = newUID;
+    notifyListeners();
+  }
+
+  set setUserDpUrl(String url) {
+    userDpUrl = url;
     notifyListeners();
   }
 
   void clear() {
-    userDpFile = null;
+    userDpUrl = null;
     uid = null;
     userName = null;
     notifyListeners();
