@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/app_bar_section_chat_screen.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_body_list_view.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_box.dart';
+import 'package:dex_messenger/data/states/user_info_provider.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ScreenChat extends StatelessWidget {
   ScreenChat(

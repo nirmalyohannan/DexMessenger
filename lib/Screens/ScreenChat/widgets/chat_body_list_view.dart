@@ -26,7 +26,7 @@ class ChatBodyListView extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.separated(
-                shrinkWrap: true,
+                // shrinkWrap: true,
                 controller: scrollController,
                 reverse: true,
                 padding: const EdgeInsets.only(

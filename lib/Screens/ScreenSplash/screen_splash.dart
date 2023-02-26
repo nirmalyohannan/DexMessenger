@@ -17,6 +17,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
   void initState() {
     Timer(const Duration(seconds: 1), () async {
       await Firebase.initializeApp();
+
       log("::::::FireaBase initialised");
 
       // ignore: use_build_context_synchronously

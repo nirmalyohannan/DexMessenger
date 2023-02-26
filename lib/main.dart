@@ -44,7 +44,7 @@ class DexMessenger extends StatelessWidget {
             // labelSmall: TextStyle(color: colorTextPrimary),
             // bodyLarge: TextStyle(color: colorTextPrimary),
             bodyMedium: TextStyle(color: colorTextPrimary),
-            // bodySmall: TextStyle(color: colorTextPrimary),
+            bodySmall: TextStyle(color: colorTextSecondary),
             // headline1: TextStyle(color: colorTextPrimary),
             // headline2: TextStyle(color: colorTextPrimary),
             // headline3: TextStyle(color: colorTextPrimary),

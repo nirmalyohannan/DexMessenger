@@ -81,7 +81,8 @@ class _SendButton extends StatelessWidget {
 
         if (textEditingController.text.isNotEmpty) {
           sendMessage(
-              content: textEditingController.text, recipentUID: recipentUID);
+              content: textEditingController.text,
+              recipentUID: recipentUID); //To write in Background Service
 
           textEditingController.clear();
           // FocusScope.of(context).unfocus(); //To unfocus Keyboard
