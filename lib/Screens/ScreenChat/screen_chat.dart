@@ -37,6 +37,7 @@ class ScreenChat extends StatelessWidget {
               ChatBodyListView(
                 recipentUID: recipentUID,
                 scrollController: scrollController,
+                listViewTopPadding: imageSize,
               ),
               AppBarSectionChatScreen(
                   imageSize: imageSize,

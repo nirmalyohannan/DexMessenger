@@ -1,17 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dex_messenger/Screens/ScreenChat/widgets/message_card_chat_screen.dart';
+import 'package:dex_messenger/Screens/ScreenChat/widgets/date_categorised_message_list.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
+import 'package:dex_messenger/utils/ScreenChat/categorise_list_by_date.dart';
+import 'package:dex_messenger/utils/ScreenChat/get_sticky_header_date.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
 class ChatBodyListView extends StatelessWidget {
   const ChatBodyListView(
-      {super.key, required this.recipentUID, required this.scrollController});
+      {super.key,
+      required this.recipentUID,
+      required this.scrollController,
+      required this.listViewTopPadding});
 
   final String recipentUID;
   final ScrollController scrollController;
+  final double listViewTopPadding;
   @override
   Widget build(BuildContext context) {
     final String userID = FirebaseAuth.instance.currentUser!.uid;
@@ -25,23 +31,35 @@ class ChatBodyListView extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListView.separated(
-                // shrinkWrap: true,
-                controller: scrollController,
-                reverse: true,
-                padding: const EdgeInsets.only(
-                    top: 120, bottom: 80, left: 8, right: 8),
-                itemCount: snapshot.data!.docs.length,
-                separatorBuilder: (context, index) => kGapHeight10,
-                itemBuilder: (context, index) {
-                  //--------------------
-                  var messageData = snapshot.data!.docs[index];
-                  MessageModel messageModel =
-                      MessageModel.fromJson(messageData.data());
-                  return MessageCardChatScreen(
-                      messageModel: messageModel, recipentUID: recipentUID);
-                  //---------------------
-                });
+            List<MessageModel> messageModelList = snapshot.data!.docs
+                .map((e) => MessageModel.fromJson(e.data()))
+                .toList();
+            var dateCategorisedList = categoriseListByDate(messageModelList);
+            return Padding(
+              padding: EdgeInsets.only(top: listViewTopPadding / 1.5),
+              child: ListView.separated(
+                  // shrinkWrap: true,
+
+                  controller: scrollController,
+                  reverse: true,
+                  padding: const EdgeInsets.only(
+                      top: 60, bottom: 80, left: 8, right: 8),
+                  itemCount: dateCategorisedList.length,
+                  separatorBuilder: (context, index) => kGapHeight10,
+                  itemBuilder: (context, index) {
+                    // return MessageCardChatScreen(
+                    //     messageModel: messageModelList[index],
+                    //     recipentUID: recipentUID);
+                    // ---------------------
+                    String date = getStickyHeaderDate(
+                        dateCategorisedList[index].first.createdTime);
+                    return DateCategorisedMessageList(
+                        stickyHeaderDate: date,
+                        messageModelList:
+                            dateCategorisedList[index].reversed.toList(),
+                        recipentUID: recipentUID);
+                  }),
+            );
           }
           return const Center(
             child: CircularProgressIndicator(),

@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dex_messenger/Screens/ScreenHome/widgets/widget_direct_chat.dart';
+import 'package:dex_messenger/Screens/ScreenHome/widgets/widget_room_chat.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
@@ -64,65 +66,5 @@ class _HomeScreenTabBarSectionState extends State<HomeScreenTabBarSection>
         ],
       ),
     );
-  }
-}
-
-class WidgetRoomChat extends StatelessWidget {
-  const WidgetRoomChat({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return LottieBuilder.network(
-        "https://assets9.lottiefiles.com/private_files/lf30_y9czxcb9.json");
-  }
-}
-
-class WidgetDirectChat extends StatelessWidget {
-  const WidgetDirectChat({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    String userUID = FirebaseAuth.instance.currentUser!.uid;
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("chats")
-            .doc('recentChats')
-            .collection(userUID)
-            .orderBy('createdTime', descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            log("Chat Tiles are connecting");
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasData) {
-            log("Chat Tiles are loaded");
-            return ListView.separated(
-              itemCount: snapshot.data!.docs.length,
-              separatorBuilder: (context, index) => kGapHeight10,
-              itemBuilder: (context, index) {
-                String recipentUID = snapshot
-                    .data!.docs[index].id; //getting UIDs from chatcollections
-                MessageModel lastMessage = MessageModel.fromJson(snapshot
-                    .data!.docs[index]
-                    .data()); //Getting the last message from recentChats Stream
-                return ChatTile(
-                  recipentUID: recipentUID,
-                  lastMessage: lastMessage,
-                );
-              },
-            );
-          } else {
-            log("Chat Tiles coudnt load");
-            return const Center(
-              child: Text("Error Loading"),
-            );
-          }
-        });
   }
 }

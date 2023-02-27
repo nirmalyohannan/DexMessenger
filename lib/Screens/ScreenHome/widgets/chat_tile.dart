@@ -4,6 +4,7 @@ import 'package:dex_messenger/Screens/widgets/dex_routes.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
+import 'package:dex_messenger/utils/ScreenHome/get_chat_tile_notification_number.dart';
 import 'package:dex_messenger/utils/ScreenHome/get_recipent_Info.dart';
 import 'package:flutter/material.dart';
 
@@ -48,17 +49,7 @@ class ChatTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text("09:30 PM"),
-                  CircleAvatar(
-                    radius: 11,
-                    backgroundColor: colorPrimary,
-                    child: Text(
-                      '2',
-                      style: TextStyle(
-                          color: colorTextPrimary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
+                  _NotificationBadgeChatTile(recipentUID: recipentUID)
                 ],
               ),
             );
@@ -68,6 +59,41 @@ class ChatTile extends StatelessWidget {
                 color: colorPrimary,
               ),
             );
+          }
+        });
+  }
+}
+
+class _NotificationBadgeChatTile extends StatelessWidget {
+  const _NotificationBadgeChatTile({
+    required this.recipentUID,
+  });
+
+  final String recipentUID;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: getChatTileNotificationNumber(recipentUID: recipentUID),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data == 0) {
+              // ignore: prefer_const_constructors
+              return SizedBox();
+            }
+            return CircleAvatar(
+              radius: 11,
+              backgroundColor: colorPrimary,
+              child: Text(
+                snapshot.data!.toString(),
+                style: TextStyle(
+                    color: colorTextPrimary,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold),
+              ),
+            );
+          } else {
+            return const SizedBox();
           }
         });
   }
