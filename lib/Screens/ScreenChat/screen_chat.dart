@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/app_bar_section_chat_screen.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_body_list_view.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_box.dart';
+import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
 
 import 'package:flutter/material.dart';
@@ -24,30 +25,33 @@ class ScreenChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log('Chat Screen Opened: UID= $recipentUID');
-    return SafeArea(
-      child: Scaffold(
-        body: GestureDetector(
-          onTap: () {
-            //To Unfocus Keyboard when Tapped outSide Focus Area
-            FocusScope.of(context).unfocus();
-          },
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              ChatBodyListView(
-                recipentUID: recipentUID,
-                scrollController: scrollController,
-                listViewTopPadding: imageSize,
-              ),
-              AppBarSectionChatScreen(
-                  imageSize: imageSize,
-                  recipentName: recipentName,
-                  recipentDpUrl: recipentDpUrl),
-              ChatBox(
-                recipentUID: recipentUID,
-                scrollController: scrollController,
-              ),
-            ],
+    return ColoredBox(
+      color: colorPrimary,
+      child: SafeArea(
+        child: Scaffold(
+          body: GestureDetector(
+            onTap: () {
+              //To Unfocus Keyboard when Tapped outSide Focus Area
+              FocusScope.of(context).unfocus();
+            },
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                ChatBodyListView(
+                  recipentUID: recipentUID,
+                  scrollController: scrollController,
+                  listViewTopPadding: imageSize,
+                ),
+                AppBarSectionChatScreen(
+                    imageSize: imageSize,
+                    recipentName: recipentName,
+                    recipentDpUrl: recipentDpUrl),
+                ChatBox(
+                  recipentUID: recipentUID,
+                  scrollController: scrollController,
+                ),
+              ],
+            ),
           ),
         ),
       ),

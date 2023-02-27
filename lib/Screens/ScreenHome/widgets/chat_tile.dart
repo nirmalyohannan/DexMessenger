@@ -5,6 +5,7 @@ import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
 import 'package:dex_messenger/utils/ScreenHome/get_chat_tile_notification_number.dart';
+import 'package:dex_messenger/utils/ScreenHome/get_chat_tile_time.dart';
 import 'package:dex_messenger/utils/ScreenHome/get_recipent_Info.dart';
 import 'package:flutter/material.dart';
 
@@ -43,12 +44,14 @@ class ChatTile extends StatelessWidget {
               ),
               subtitle: Text(
                 lastMessage.content,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: colorTextSecondary),
               ),
               trailing: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("09:30 PM"),
+                  Text(getChatTileTime(lastMessage)),
                   _NotificationBadgeChatTile(recipentUID: recipentUID)
                 ],
               ),

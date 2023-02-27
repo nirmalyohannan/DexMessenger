@@ -2,6 +2,7 @@ import 'package:dex_messenger/Screens/ScreenHome/widgets/home_dp_appbar_section.
 import 'package:dex_messenger/Screens/ScreenHome/widgets/home_screen_search_section.dart';
 import 'package:dex_messenger/Screens/ScreenHome/widgets/home_screen_tabbar_section.dart';
 import 'package:dex_messenger/Screens/ScreenHome/widgets/home_search_result_section.dart';
+import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/states/search_controller_provider.dart';
 import 'package:dex_messenger/utils/ScreenHome/listen_messages.dart';

@@ -1,6 +1,7 @@
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
+import 'package:dex_messenger/utils/ScreenChat/get_message_card_time.dart';
 import 'package:dex_messenger/utils/ScreenChat/set_delivery_status_seen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -49,7 +50,7 @@ class MessageCardChatScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  '09:30PM',
+                  getMessageCardTime(messageModel),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 kGapWidth10,
