@@ -1,28 +1,23 @@
 import 'dart:developer';
 
-import 'package:dex_messenger/Screens/ScreenChat/widgets/app_bar_section_chat_screen.dart';
+import 'package:dex_messenger/Screens/ScreenChat/widgets/app_bar_section.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_body_list_view.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_box.dart';
 import 'package:dex_messenger/core/colors.dart';
+import 'package:dex_messenger/data/models/recipent_info_model.dart';
 
 import 'package:flutter/material.dart';
 
 class ScreenChat extends StatelessWidget {
-  ScreenChat(
-      {super.key,
-      required this.recipentUID,
-      required this.recipentName,
-      required this.recipentDpUrl});
+  ScreenChat({super.key, required this.recipentInfoModel});
 
   final double imageSize = 90;
-  final String recipentUID;
-  final String recipentName;
-  final String recipentDpUrl;
+  final RecipentInfoModel recipentInfoModel;
   final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    log('Chat Screen Opened: UID= $recipentUID');
+    log('Chat Screen Opened: UID= ${recipentInfoModel.recipentUID}');
     return ColoredBox(
       color: colorPrimary,
       child: SafeArea(
@@ -36,16 +31,16 @@ class ScreenChat extends StatelessWidget {
               alignment: Alignment.topCenter,
               children: [
                 ChatBodyListView(
-                  recipentUID: recipentUID,
+                  recipentUID: recipentInfoModel.recipentUID,
                   scrollController: scrollController,
                   listViewTopPadding: imageSize,
                 ),
                 AppBarSectionChatScreen(
-                    imageSize: imageSize,
-                    recipentName: recipentName,
-                    recipentDpUrl: recipentDpUrl),
+                  imageSize: imageSize,
+                  recipentInfoModel: recipentInfoModel,
+                ),
                 ChatBox(
-                  recipentUID: recipentUID,
+                  recipentUID: recipentInfoModel.recipentUID,
                   scrollController: scrollController,
                 ),
               ],

@@ -39,7 +39,7 @@ class ChatBodyListView extends StatelessWidget {
               padding: EdgeInsets.only(top: listViewTopPadding / 1.5),
               child: ListView.separated(
                   // shrinkWrap: true,
-
+                  physics: const BouncingScrollPhysics(),
                   controller: scrollController,
                   reverse: true,
                   padding: const EdgeInsets.only(

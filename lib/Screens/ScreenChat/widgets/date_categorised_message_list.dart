@@ -1,4 +1,4 @@
-import 'package:dex_messenger/Screens/ScreenChat/widgets/message_card_chat_screen.dart';
+import 'package:dex_messenger/Screens/ScreenChat/widgets/message_card.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
@@ -18,29 +18,25 @@ class DateCategorisedMessageList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StickyHeader(
-      overlapHeaders: false,
-      header: Align(
-        child: Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                color: colorSecondaryBG, borderRadius: kradiusMedium),
-            // alignment: AlignmentDirectional.center,
-            child: Text(
-              stickyHeaderDate,
-              style: TextStyle(color: colorTextSecondary),
-            )),
-      ),
-      content: ListView(
-          physics: const NeverScrollableScrollPhysics(),
+        overlapHeaders: false,
+        header: Align(
+          child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  color: colorSecondaryBG, borderRadius: kradiusMedium),
+              // alignment: AlignmentDirectional.center,
+              child: Text(
+                stickyHeaderDate,
+                style: TextStyle(color: colorTextSecondary),
+              )),
+        ),
+        content: ListView.separated(
           shrinkWrap: true,
-          children: List.generate(
-              messageModelList.length,
-              (index) => Padding(
-                    padding: const EdgeInsets.only(top: 5, bottom: 5),
-                    child: MessageCardChatScreen(
-                        messageModel: messageModelList[index],
-                        recipentUID: recipentUID),
-                  ))),
-    );
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: messageModelList.length,
+          separatorBuilder: (context, index) => kGapHeight10,
+          itemBuilder: (context, index) => MessageCardChatScreen(
+              messageModel: messageModelList[index], recipentUID: recipentUID),
+        ));
   }
 }

@@ -27,9 +27,8 @@ class ChatTile extends StatelessWidget {
                   context,
                   dexRouteSlideFromLeft(
                       nextPage: ScreenChat(
-                          recipentUID: recipentUID,
-                          recipentName: snapshot.data!.recipentName,
-                          recipentDpUrl: snapshot.data!.recipentDpUrl))),
+                    recipentInfoModel: snapshot.data!,
+                  ))),
               leading: ClipRRect(
                 borderRadius: kradiusCircular,
                 child: CachedNetworkImage(

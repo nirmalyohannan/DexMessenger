@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/Screens/ScreenHome/widgets/search_result_tile.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
-import 'package:dex_messenger/data/models/search_result_model.dart';
+import 'package:dex_messenger/data/models/recipent_info_model.dart';
 
 import 'package:dex_messenger/data/states/search_controller_provider.dart';
 import 'package:flutter/material.dart';
@@ -55,11 +55,11 @@ class HomeSearchResultSection extends StatelessWidget {
                           itemCount: searchResult.length,
                           separatorBuilder: (context, index) => kGapHeight10,
                           itemBuilder: (context, index) {
-                            SearchResultModel searchResultModel =
-                                SearchResultModel.fromJson(
+                            RecipentInfoModel recipentInfo =
+                                RecipentInfoModel.fromJson(
                                     searchResult[index].data());
                             return SearchResultTile(
-                              searchResultModel: searchResultModel,
+                              recipentInfo: recipentInfo,
                             );
                           });
                     }

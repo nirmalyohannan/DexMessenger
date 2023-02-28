@@ -15,7 +15,7 @@ class ScreenSplash extends StatefulWidget {
 class _ScreenSplashState extends State<ScreenSplash> {
   @override
   void initState() {
-    Timer(const Duration(seconds: 1), () async {
+    Timer(const Duration(milliseconds: 300), () async {
       await Firebase.initializeApp();
 
       log("::::::FireaBase initialised");

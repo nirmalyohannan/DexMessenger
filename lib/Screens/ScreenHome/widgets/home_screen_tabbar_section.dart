@@ -33,7 +33,7 @@ class _HomeScreenTabBarSectionState extends State<HomeScreenTabBarSection>
 
   @override
   Widget build(BuildContext context) {
-    log(tabBarController.index.toString());
+    // log('TabBar Index: ${tabBarController.index.toString()}');
     return Expanded(
       child: Column(
         children: [

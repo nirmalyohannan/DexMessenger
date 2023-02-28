@@ -1,19 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dex_messenger/Screens/ScreenChat/widgets/menu_button.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
+import 'package:dex_messenger/data/models/recipent_info_model.dart';
 import 'package:flutter/material.dart';
 
 class AppBarSectionChatScreen extends StatelessWidget {
-  const AppBarSectionChatScreen({
-    super.key,
-    required this.imageSize,
-    required this.recipentName,
-    required this.recipentDpUrl,
-  });
+  const AppBarSectionChatScreen(
+      {super.key, required this.imageSize, required this.recipentInfoModel});
 
   final double imageSize;
-  final String recipentName;
-  final String recipentDpUrl;
+  final RecipentInfoModel recipentInfoModel;
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +28,19 @@ class AppBarSectionChatScreen extends StatelessWidget {
               ),
               Flexible(
                 child: AutoSizeText(
-                  recipentName,
+                  recipentInfoModel.recipentName,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
-              Icon(
-                Icons.more_vert,
-                color: colorTextPrimary,
-                size: 30,
+              MenuButtonChatScreen(
+                recipentUID: recipentInfoModel.recipentUID,
               )
             ],
           ),
         ),
-        _DpChatScreen(recipentDpUrl: recipentDpUrl, imageSize: imageSize),
+        _DpChatScreen(
+            recipentDpUrl: recipentInfoModel.recipentDpUrl,
+            imageSize: imageSize),
       ],
     );
   }
