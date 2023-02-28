@@ -8,6 +8,7 @@ import 'package:dex_messenger/utils/ScreenHome/get_chat_tile_notification_number
 import 'package:dex_messenger/utils/ScreenHome/get_chat_tile_time.dart';
 import 'package:dex_messenger/utils/ScreenHome/get_recipent_Info.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ChatTile extends StatelessWidget {
   const ChatTile(
@@ -57,9 +58,28 @@ class ChatTile extends StatelessWidget {
               ),
             );
           } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: colorPrimary,
+            return SizedBox(
+              width: 200.0,
+              height: 100.0,
+              child: Shimmer.fromColors(
+                baseColor: colorPrimaryBG,
+                highlightColor: colorTextPrimary,
+                child: ListTile(
+                  leading: const CircleAvatar(),
+                  title: Container(
+                    height: 10.0,
+                    color: Colors.white,
+                  ),
+                  subtitle: Row(
+                    children: [
+                      Container(
+                        height: 10.0,
+                        width: MediaQuery.of(context).size.width / 2,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
               ),
             );
           }

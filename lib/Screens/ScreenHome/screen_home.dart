@@ -18,25 +18,22 @@ class ScreenHome extends StatelessWidget {
     listenUserInfo(context); //To write in Background Service
     listenMesssagesToSetRecieved(); //To write in Background Service
 
-    return SafeArea(
-      child: Scaffold(
-          body: Padding(
-        padding: kScreenPaddingAllLight,
-        child: Column(
-          children: [
-            const HomeDpNameAppBarSection(),
-            kGapHeight10,
-            const HomeSearchSection(),
-            context
-                    .watch<SearchControllerProvider>()
-                    .searchController
-                    .text
-                    .isEmpty
-                ? const HomeScreenTabBarSection()
-                : const HomeSearchResultSection(),
-          ],
-        ),
-      )),
+    return Padding(
+      padding: kScreenPaddingAllLight,
+      child: Column(
+        children: [
+          const HomeDpNameAppBarSection(),
+          kGapHeight10,
+          const HomeSearchSection(),
+          context
+                  .watch<SearchControllerProvider>()
+                  .searchController
+                  .text
+                  .isEmpty
+              ? const HomeScreenTabBarSection()
+              : const HomeSearchResultSection(),
+        ],
+      ),
     );
   }
 }

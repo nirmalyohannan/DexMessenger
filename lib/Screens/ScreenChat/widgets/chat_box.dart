@@ -79,7 +79,7 @@ class _SendButton extends StatelessWidget {
       onPressed: () async {
         log("Send Button clicked");
 
-        if (textEditingController.text.isNotEmpty) {
+        if (textEditingController.text.trim().isNotEmpty) {
           sendMessage(
               content: textEditingController.text,
               recipentUID: recipentUID); //To write in Background Service
