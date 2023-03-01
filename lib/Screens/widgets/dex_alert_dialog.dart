@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 
 class DexAlertDialog extends StatelessWidget {
   const DexAlertDialog(
-      {super.key, this.icon, required this.title, this.actions});
+      {super.key, this.icon, required this.title, this.actions, this.content});
 
   final Widget? icon;
   final String title;
+  final Widget? content;
 
   final List<Widget>? actions;
   @override
@@ -15,6 +16,7 @@ class DexAlertDialog extends StatelessWidget {
     return AlertDialog(
       backgroundColor: colorPrimaryBG,
       actions: actions,
+      content: content,
       title: Row(
         children: [
           icon != null ? icon! : const SizedBox(),
