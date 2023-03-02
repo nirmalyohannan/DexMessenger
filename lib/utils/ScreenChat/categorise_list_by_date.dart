@@ -2,6 +2,7 @@ import 'package:dex_messenger/data/models/message_model.dart';
 
 List<List<MessageModel>> categoriseListByDate(
     List<MessageModel> messageModelList) {
+  //----------------------------
   List<List<MessageModel>> categorisedList = [];
   String previousDate = '';
 

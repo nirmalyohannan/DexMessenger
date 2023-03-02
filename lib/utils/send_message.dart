@@ -4,7 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-void sendMessage({required String content, required String recipentUID}) {
+void sendMessage(
+    {required String type,
+    required String content,
+    required String recipentUID}) {
   //--------------------------------
 
   //-------------------------------
@@ -12,7 +15,7 @@ void sendMessage({required String content, required String recipentUID}) {
   //-----------------
 
   MessageModel messageModel = MessageModel(
-      type: 'string',
+      type: type,
       content: content,
       fromUID: userUID,
       toUID: recipentUID,

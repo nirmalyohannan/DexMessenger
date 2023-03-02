@@ -3,7 +3,6 @@ import 'package:dex_messenger/Screens/ScreenUserInfo/screen_user_info.dart';
 import 'package:dex_messenger/Screens/widgets/dex_alert_dialog.dart';
 import 'package:dex_messenger/Screens/widgets/dex_button.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
-import 'package:dex_messenger/utils/ScreenChat/clear_chat.dart';
 import 'package:dex_messenger/utils/ScreenLogin/dex_google_login_in.dart';
 import 'package:dex_messenger/utils/ScreenSettings/clear_full_chats.dart';
 import 'package:flutter/material.dart';

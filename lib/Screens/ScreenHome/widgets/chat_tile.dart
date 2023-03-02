@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dex_messenger/Screens/ScreenChat/screen_chat.dart';
 import 'package:dex_messenger/Screens/widgets/dex_routes.dart';
@@ -8,6 +9,7 @@ import 'package:dex_messenger/utils/ScreenHome/get_chat_tile_notification_number
 import 'package:dex_messenger/utils/ScreenHome/get_chat_tile_time.dart';
 import 'package:dex_messenger/utils/ScreenHome/get_recipent_Info.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shimmer/shimmer.dart';
 
 class ChatTile extends StatelessWidget {
@@ -23,12 +25,18 @@ class ChatTile extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListTile(
-              onTap: () => Navigator.push(
-                  context,
-                  dexRouteSlideFromLeft(
-                      nextPage: ScreenChat(
-                    recipentInfoModel: snapshot.data!,
-                  ))),
+              //--------------------------------------
+              onTap: () {
+                log('Chat Tile pressed');
+                // authenticateToChatScreen(context,
+                //     recipentInfoModel: snapshot.data!);
+                Navigator.push(
+                    context,
+                    dexRouteSlideFromLeft(
+                        nextPage:
+                            ScreenChat(recipentInfoModel: snapshot.data!)));
+              },
+              //--------------------------------------
               leading: ClipRRect(
                 borderRadius: kradiusCircular,
                 child: CachedNetworkImage(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
@@ -22,7 +24,42 @@ class MessageCardChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     setDeliveryStatusSeen(messageModel,
         recipentUID); //To set deliveryStatus to seen for the recieved messages
+    switch (messageModel.type) {
+      case 'string':
+        return _MessageCardString(
+            messageModel: messageModel, recipentUID: recipentUID);
+      case 'relation':
+        String string;
+        if (messageModel.content == 'friends') {
+          string = 'Request Accepted';
+        } else {
+          string = 'Friendship Requested';
+        }
+        return Center(
+          child: Text(
+            '--- $string ---',
+            style: TextStyle(color: colorTextSecondary),
+          ),
+        );
+      default:
+        log('Problem with Message Model type: Entered into default in switch case');
+        return _MessageCardString(
+            messageModel: messageModel, recipentUID: recipentUID);
+    }
+  }
+}
 
+class _MessageCardString extends StatelessWidget {
+  const _MessageCardString({
+    required this.messageModel,
+    required this.recipentUID,
+  });
+
+  final MessageModel messageModel;
+  final String recipentUID;
+
+  @override
+  Widget build(BuildContext context) {
     return UnconstrainedBox(
       alignment: messageModel.fromUID == recipentUID
           ? Alignment.centerLeft

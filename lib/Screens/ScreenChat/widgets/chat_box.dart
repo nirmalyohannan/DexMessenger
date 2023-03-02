@@ -2,7 +2,8 @@ import 'dart:developer';
 import 'package:dex_messenger/Screens/widgets/dex_circle_button.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
-import 'package:dex_messenger/utils/ScreenChat/send_message.dart';
+import 'package:dex_messenger/utils/send_message.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -80,6 +81,7 @@ class _SendButton extends StatelessWidget {
         log("Send Button clicked");
         if (textEditingController.text.trim().isNotEmpty) {
           sendMessage(
+              type: 'string',
               content: textEditingController.text.trim(),
               recipentUID: recipentUID); //To write in Background Service
 
