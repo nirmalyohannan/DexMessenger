@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/app_bar_section.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_body_list_view.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/chat_box.dart';
-import 'package:dex_messenger/Screens/ScreenChat/widgets/screen_accept_request.dart';
+import 'package:dex_messenger/Screens/ScreenChat/widgets/accept_request_section.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/screen_send_request.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
@@ -23,84 +23,6 @@ class ScreenChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log('Chat Screen Opened: UID= ${recipentInfoModel.recipentUID}');
-    return Consumer<FriendsProvider>(
-      builder: (context, friendsProvider, _) {
-        var currentStatusMap = context
-            .read<FriendsProvider>()
-            .friendshipStatusMap[recipentInfoModel.recipentUID];
-
-        if (currentStatusMap != null) {
-          MessageModel currentStatus = MessageModel.fromJson(currentStatusMap);
-          log('Current FriendShip Status: ${currentStatus.content} : by ${currentStatus.fromUID}');
-          //--------------------------
-          switch (currentStatus.content) {
-            case 'friends':
-              return ChatSection(
-                  recipentInfoModel: recipentInfoModel,
-                  scrollController: scrollController,
-                  imageSize: imageSize);
-
-            case 'requested':
-              if (currentStatus.fromUID == recipentInfoModel.recipentUID) {
-                //Navigate to AcceptRequestScreen
-                return ScreenAcceptRequest(
-                  recipentInfoModel: recipentInfoModel,
-                );
-              } else {
-                //Navigate to SendRequestScreen
-                return ScreenSendRequest(
-                  recipentInfoModel: recipentInfoModel,
-                );
-              }
-
-            case 'blocked':
-              if (currentStatus.fromUID == recipentInfoModel.recipentUID) {
-                //SnackBar Cant Open this Chat: YOu are banned!!
-              } else {
-                //Navigate to unblockRecipentScreen
-              }
-
-              break;
-            case 'unfriend':
-              return ScreenSendRequest(recipentInfoModel: recipentInfoModel);
-
-            default:
-              log('There is some problem with authenticateToChatscreen method!!');
-              log('Friendship Status Recieved: ${currentStatus.content}');
-          }
-        } else {
-          //No relation Found between user and recipent i.e they are not friends!!
-          //Therefore need to send friend request!!
-
-          log('Current frnship Status Between user and recipent is null\n Therefore they are not friends');
-          return ScreenSendRequest(
-            recipentInfoModel: recipentInfoModel,
-          );
-        }
-        return ChatSection(
-            recipentInfoModel: recipentInfoModel,
-            scrollController: scrollController,
-            imageSize: imageSize);
-      },
-    );
-  }
-}
-
-//------------------------------------------------
-class ChatSection extends StatelessWidget {
-  const ChatSection({
-    super.key,
-    required this.recipentInfoModel,
-    required this.scrollController,
-    required this.imageSize,
-  });
-
-  final RecipentInfoModel recipentInfoModel;
-  final ScrollController scrollController;
-  final double imageSize;
-
-  @override
-  Widget build(BuildContext context) {
     return ColoredBox(
       color: colorPrimary,
       child: SafeArea(
@@ -123,7 +45,7 @@ class ChatSection extends StatelessWidget {
                   recipentInfoModel: recipentInfoModel,
                 ),
                 ChatBox(
-                  recipentUID: recipentInfoModel.recipentUID,
+                  recipentInfoModel: recipentInfoModel,
                   scrollController: scrollController,
                 ),
               ],

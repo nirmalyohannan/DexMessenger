@@ -42,7 +42,7 @@ class MenuButtonChatScreen extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       log("Unfriend Chat Confirmed!");
-                      unfriendRecipent(recipentUID);
+                      unfriendRecipent(context, recipentUID);
 
                       Navigator.pop(context);
                     },

@@ -35,9 +35,9 @@ String getChatTileTime(MessageModel messageModel) {
     return 'yesterday';
   } else if (dateTime.year == dateTimeToday.year) {
     String month = monthList[dateTime.month - 1];
-    return '${dateTime.year}-$month';
+    return '$month-${dateTime.day}';
   } else {
     String month = monthList[dateTime.month - 1];
-    return '${dateTime.year}-$month-${dateTime.year}';
+    return '${dateTime.year}-$month-${dateTime.day}';
   }
 }

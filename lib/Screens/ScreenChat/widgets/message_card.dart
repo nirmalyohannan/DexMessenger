@@ -1,9 +1,7 @@
 import 'dart:developer';
-
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
-
 import 'package:dex_messenger/utils/ScreenChat/get_message_card_time.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/message_card_options.dart';
 import 'package:dex_messenger/utils/ScreenChat/set_delivery_status_seen.dart';
@@ -31,18 +29,21 @@ class MessageCardChatScreen extends StatelessWidget {
       case 'relation':
         String string;
         if (messageModel.content == 'friends') {
-          string = 'Request Accepted';
+          string = '🤜🤛 Request Accepted 🤜🤛';
+        } else if (messageModel.content == 'unfriend') {
+          string = '👎 Friendship Canceled 👎';
         } else {
-          string = 'Friendship Requested';
+          string = '👋 Friendship Requested 👋';
         }
         return Center(
           child: Text(
-            '--- $string ---',
+            string,
             style: TextStyle(color: colorTextSecondary),
           ),
         );
       default:
-        log('Problem with Message Model type: Entered into default in switch case');
+        log('MEssageCard: Problem with Message Model type: Entered into default in switch case');
+        log('Message Model Type: ${messageModel.type}');
         return _MessageCardString(
             messageModel: messageModel, recipentUID: recipentUID);
     }
