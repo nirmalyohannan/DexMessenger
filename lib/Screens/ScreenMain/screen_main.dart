@@ -8,6 +8,7 @@ import 'package:dex_messenger/data/global_variables.dart';
 import 'package:dex_messenger/data/states/friends_provider.dart';
 import 'package:dex_messenger/data/states/live_emojis_provider.dart';
 import 'package:dex_messenger/data/states/recent_chat_provider.dart';
+import 'package:dex_messenger/data/states/user_info_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,10 +31,12 @@ class ScreenMain extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               } else if (snapshot.hasData) {
+                String userUID = snapshot.data!.uid;
                 log(":::::::::Logged In");
                 log(":::Inititing Friends Provider:: Listening to Friendship statuses");
                 context.read<FriendsProvider>().initiate();
                 context.read<RecentChatProvider>().initiate();
+                context.read<UserInfoProvider>().readUserInfo(userUID);
                 return isLoggedInNow ? ScreenUserInfo() : const ScreenHome();
               } else if (snapshot.hasError) {
                 log(":::::::::SomethingWrong");

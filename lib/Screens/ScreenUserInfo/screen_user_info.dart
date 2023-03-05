@@ -1,17 +1,20 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/Screens/ScreenHome/screen_home.dart';
+import 'package:dex_messenger/Screens/ScreenMain/screen_main.dart';
 import 'package:dex_messenger/Screens/ScreenUserInfo/widgets/user_info_dp_username_section.dart';
 import 'package:dex_messenger/Screens/widgets/dex_circle_button.dart';
 import 'package:dex_messenger/Screens/widgets/dex_routes.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/global_variables.dart';
-import 'package:dex_messenger/utils/ScreenUserInfo/upload_dp.dart';
+import 'package:dex_messenger/data/states/user_info_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ScreenUserInfo extends StatelessWidget {
   ScreenUserInfo({super.key});
@@ -57,35 +60,30 @@ class _SubmitButtonSection extends StatelessWidget {
   final TextEditingController userNameTextController;
   @override
   Widget build(BuildContext context) {
-    return DexCircleButton(
-      circleRadius: 30,
-      onPressed: () async {
-        String imagePath;
-        if (userDpFile != null) {
-          imagePath = await uploadDP(userDpFile!);
-        } else {
-          log('Image File Null');
-          log('Uploading Default Gmail Image');
-          imagePath = FirebaseAuth.instance.currentUser!.photoURL!;
-        }
-        String uid = FirebaseAuth.instance.currentUser!.uid;
-        FirebaseFirestore.instance.collection('users').doc(uid).set({
-          'name': userNameTextController.text,
-          'uid': uid,
-          'image': imagePath,
-        });
-        if (context.mounted) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              dexRouteSlideFromLeft(nextPage: const ScreenHome()),
-              (route) => false);
-        }
-      },
-      child: FaIcon(
-        FontAwesomeIcons.rightLong,
-        color: colorTextPrimary,
-        size: 30,
-      ),
-    );
+    return Consumer<UserInfoProvider>(builder: (context, userInfo, child) {
+      return DexCircleButton(
+        circleRadius: 30,
+        onPressed: () async {
+          String uid = userInfo.uid!;
+          await FirebaseFirestore.instance.collection('users').doc(uid).set({
+            'name': userNameTextController.text,
+            'uid': uid,
+            'image': userInfo.userDpUrl,
+          });
+          isLoggedInNow = false;
+          if (context.mounted) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                dexRouteSlideFromLeft(nextPage: const ScreenMain()),
+                (route) => false);
+          }
+        },
+        child: FaIcon(
+          FontAwesomeIcons.rightLong,
+          color: colorTextPrimary,
+          size: 30,
+        ),
+      );
+    });
   }
 }

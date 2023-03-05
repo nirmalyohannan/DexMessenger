@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
-import 'package:dex_messenger/data/global_variables.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,7 @@ class _UserInfoDpUsernameSectionState extends State<UserInfoDpUsernameSection> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserInfoProvider>(
-      builder: (context, userData, child) {
+      builder: (context, userInfo, child) {
         return Column(
           children: [
             kGapHeight30,
@@ -43,16 +42,30 @@ class _UserInfoDpUsernameSectionState extends State<UserInfoDpUsernameSection> {
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                _DpImage(userData: userData),
+                _DpImage(
+                    userInfo: userInfo,
+                    diameter: MediaQuery.of(context).size.width / 2),
+                Visibility(
+                  visible: userInfo.isUploadingDp,
+                  child: SizedBox(
+                      height: MediaQuery.of(context).size.width / 2,
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: CircularProgressIndicator(
+                        color: colorPrimary,
+                        strokeWidth: 6,
+                      )),
+                ),
                 GestureDetector(
                   onTap: () async {
                     ImagePicker imagePicker = ImagePicker();
                     XFile? xFile = await imagePicker.pickImage(
                         source: ImageSource.gallery);
                     if (xFile != null) {
-                      userDpFile = File(xFile.path);
-
-                      log("userData.userDp updated");
+                      if (context.mounted) {
+                        userInfo.uploadDP(File(xFile.path));
+                        userInfo.setUserDpFile = File(xFile.path);
+                        log("userData.userDp updated");
+                      }
                     } else {
                       log("xFile is null");
                     }
@@ -107,48 +120,39 @@ class _UsernameTextField extends StatelessWidget {
 }
 
 class _DpImage extends StatelessWidget {
-  const _DpImage({required this.userData});
+  const _DpImage({required this.userInfo, required this.diameter});
 
-  final UserInfoProvider userData;
-
+  final UserInfoProvider userInfo;
+  final double diameter;
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width / 2;
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (userDpFile != null) {
+    if (userInfo.userDpFile != null) {
       log("UserInfoScreen: UserInfo is not null");
 
       return ClipRRect(
         borderRadius: BorderRadius.circular(200),
         child: Image.file(
-          userDpFile!,
-          width: width,
-          height: width,
+          userInfo.userDpFile!,
+          width: diameter,
+          height: diameter,
           fit: BoxFit.cover,
         ),
       );
-    } else if (user == null) {
+    } else if (userInfo.userDpUrl == null) {
       log("UserInfoScreen: user is null");
       return Icon(
         Icons.account_circle,
         color: colorSecondaryBG,
-        size: width,
-      );
-    } else if (user.photoURL == null) {
-      return Icon(
-        Icons.account_circle,
-        color: colorSecondaryBG,
-        size: width,
+        size: diameter,
       );
     }
-    log(":::${user.displayName}");
+
     return ClipRRect(
       borderRadius: kradiusCircular,
       child: Image.network(
-        user.photoURL!,
-        width: width,
-        height: width,
+        userInfo.userDpUrl!,
+        width: diameter,
+        height: diameter,
         fit: BoxFit.cover,
         loadingBuilder: (context, child, loadingProgress) =>
             loadingProgress == null
