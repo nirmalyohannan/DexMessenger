@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+SizedBox kGapHeight5 = const SizedBox(height: 5);
 SizedBox kGapHeight10 = const SizedBox(height: 10);
+SizedBox kGapHeight15 = const SizedBox(height: 15);
+
+SizedBox kGapWidth5 = const SizedBox(width: 5);
 SizedBox kGapWidth10 = const SizedBox(width: 10);
 
 SizedBox kGapWidth30 = const SizedBox(width: 30);

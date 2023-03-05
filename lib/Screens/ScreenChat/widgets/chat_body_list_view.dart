@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/date_categorised_message_list.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
@@ -5,7 +6,6 @@ import 'package:dex_messenger/data/models/message_model.dart';
 import 'package:dex_messenger/utils/ScreenChat/categorise_list_by_date.dart';
 import 'package:dex_messenger/utils/ScreenChat/get_sticky_header_date.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 
 class ChatBodyListView extends StatelessWidget {
@@ -31,9 +31,15 @@ class ChatBodyListView extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            log('Chat Stream Builder Building');
             List<MessageModel> messageModelList = snapshot.data!.docs
                 .map((e) => MessageModel.fromJson(e.data()))
                 .toList();
+            //----------------Setting Live Emoji FG and BG if Available-------------------------------
+            // context
+            //     .read<LiveEmojisProvider>()
+            //     .setLiveEmojiBgFg(lastMessage: messageModelList.first);
+            //----------------------------------------------------------------
             var dateCategorisedList = categoriseListByDate(messageModelList);
             return Padding(
               padding: EdgeInsets.only(top: listViewTopPadding / 1.5),
@@ -57,6 +63,7 @@ class ChatBodyListView extends StatelessWidget {
                         stickyHeaderDate: date,
                         messageModelList:
                             dateCategorisedList[index].reversed.toList(),
+                        isLastCategory: index == dateCategorisedList.length - 1,
                         recipentUID: recipentUID);
                   }),
             );

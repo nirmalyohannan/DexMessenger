@@ -1,6 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dex_messenger/Screens/widgets/dex_button.dart';
-import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/recipent_info_model.dart';
 import 'package:dex_messenger/utils/ScreenChat/accept_request.dart';
 import 'package:flutter/material.dart';

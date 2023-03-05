@@ -1,6 +1,8 @@
 import 'package:dex_messenger/Screens/ScreenSplash/screen_splash.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/data/states/friends_provider.dart';
+import 'package:dex_messenger/data/states/live_emojis_provider.dart';
+import 'package:dex_messenger/data/states/recent_chat_provider.dart';
 import 'package:dex_messenger/data/states/search_controller_provider.dart';
 
 import 'package:dex_messenger/data/states/user_info_provider.dart';
@@ -27,6 +29,10 @@ class DexMessenger extends StatelessWidget {
             create: (context) => SearchControllerProvider()),
         ListenableProvider<FriendsProvider>(
             create: (context) => FriendsProvider()),
+        ListenableProvider<LiveEmojisProvider>(
+            create: (context) => LiveEmojisProvider()),
+        ListenableProvider<RecentChatProvider>(
+            create: (context) => RecentChatProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

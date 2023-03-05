@@ -10,11 +10,13 @@ class DateCategorisedMessageList extends StatelessWidget {
       {super.key,
       required this.messageModelList,
       required this.recipentUID,
-      required this.stickyHeaderDate});
+      required this.stickyHeaderDate,
+      required this.isLastCategory});
 
   final List<MessageModel> messageModelList;
   final String recipentUID;
   final String stickyHeaderDate;
+  final bool isLastCategory;
   @override
   Widget build(BuildContext context) {
     return StickyHeader(
@@ -34,9 +36,11 @@ class DateCategorisedMessageList extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: messageModelList.length,
-          separatorBuilder: (context, index) => kGapHeight10,
+          separatorBuilder: (context, index) => kGapHeight15,
           itemBuilder: (context, index) => MessageCardChatScreen(
-              messageModel: messageModelList[index], recipentUID: recipentUID),
+            messageModel: messageModelList[index],
+            recipentUID: recipentUID,
+          ),
         ));
   }
 }

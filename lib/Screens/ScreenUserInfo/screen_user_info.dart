@@ -74,11 +74,12 @@ class _SubmitButtonSection extends StatelessWidget {
           'uid': uid,
           'image': imagePath,
         });
-
-        Navigator.pushAndRemoveUntil(
-            context,
-            dexRouteSlideFromLeft(nextPage: const ScreenHome()),
-            (route) => false);
+        if (context.mounted) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              dexRouteSlideFromLeft(nextPage: const ScreenHome()),
+              (route) => false);
+        }
       },
       child: FaIcon(
         FontAwesomeIcons.rightLong,

@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/accept_request_section.dart';
+import 'package:dex_messenger/Screens/ScreenChat/widgets/emojis_bottomsheet.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/screen_send_request.dart';
 import 'package:dex_messenger/Screens/widgets/dex_circle_button.dart';
 import 'package:dex_messenger/core/colors.dart';
@@ -24,7 +25,6 @@ class ChatBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController textEditingController = TextEditingController();
-
     return Column(
       mainAxisAlignment:
           MainAxisAlignment.end, //To bring ChatBox to bottom in the stack
@@ -101,7 +101,6 @@ class ChatBox extends StatelessWidget {
 
 class _ChatBoxSection extends StatelessWidget {
   const _ChatBoxSection({
-    super.key,
     required this.textEditingController,
     required this.recipentUID,
     required this.scrollController,
@@ -115,6 +114,21 @@ class _ChatBoxSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        IconButton(
+          onPressed: () {
+            log('Pressed on Chatbox Emoji Button');
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => EmojisBottomSheet(
+                recipentUID: recipentUID,
+              ),
+            );
+          },
+          icon: const FaIcon(
+            FontAwesomeIcons.faceSmile,
+            color: Colors.orangeAccent,
+          ),
+        ),
         Flexible(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 150),
@@ -123,24 +137,28 @@ class _ChatBoxSection extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               maxLines: null,
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(5),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 0, color: colorDisabledBG),
-                      borderRadius: kradiusMedium),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: colorPrimary),
-                      borderRadius: kradiusMedium),
-                  filled: true,
-                  fillColor: colorChatBoxBG,
-                  hintText: 'Type Message'),
+                contentPadding: const EdgeInsets.all(5),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0, color: colorDisabledBG),
+                  borderRadius: kradiusMedium,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 3, color: colorPrimary),
+                  borderRadius: kradiusMedium,
+                ),
+                filled: true,
+                fillColor: colorChatBoxBG,
+                hintText: 'Type Message',
+              ),
             ),
           ),
         ),
         kGapWidth10,
         _SendButton(
-            textEditingController: textEditingController,
-            recipentUID: recipentUID,
-            scrollController: scrollController)
+          textEditingController: textEditingController,
+          recipentUID: recipentUID,
+          scrollController: scrollController,
+        ),
       ],
     );
   }
