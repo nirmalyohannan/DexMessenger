@@ -6,13 +6,16 @@ import 'package:dex_messenger/data/states/recent_chat_provider.dart';
 import 'package:dex_messenger/data/states/search_controller_provider.dart';
 
 import 'package:dex_messenger/data/states/user_info_provider.dart';
+import 'package:dex_messenger/utils/NotificationService/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
+  NotificationService.init();
   runApp(const DexMessenger());
 }
 
@@ -34,35 +37,37 @@ class DexMessenger extends StatelessWidget {
         ListenableProvider<RecentChatProvider>(
             create: (context) => RecentChatProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // supportedLocales: AppLocalizations.supportedLocales,
-        // localizationsDelegates: AppLocalizations.localizationsDelegates,
-        theme: ThemeData(
-          useMaterial3: true,
-          scaffoldBackgroundColor: colorPrimaryBG,
-          textTheme: TextTheme(
-            // displayLarge: TextStyle(color: colorTextPrimary),
-            // displayMedium: TextStyle(color: colorTextPrimary),
-            // displaySmall: TextStyle(color: colorTextPrimary),
-            titleLarge: TextStyle(color: colorTextPrimary),
-            titleMedium: TextStyle(color: colorTextPrimary),
-            // titleSmall: TextStyle(color: colorTextPrimary),
-            // labelLarge: TextStyle(color: colorTextPrimary),
-            // labelMedium: TextStyle(color: colorTextPrimary),
-            // labelSmall: TextStyle(color: colorTextPrimary),
-            // bodyLarge: TextStyle(color: colorTextPrimary),
-            bodyMedium: TextStyle(color: colorTextPrimary),
-            bodySmall: TextStyle(color: colorTextSecondary),
-            // headline1: TextStyle(color: colorTextPrimary),
-            // headline2: TextStyle(color: colorTextPrimary),
-            // headline3: TextStyle(color: colorTextPrimary),
-            headlineLarge: TextStyle(color: colorTextPrimary, fontSize: 40),
-            headlineMedium: TextStyle(color: colorTextPrimary),
-            // headlineSmall: TextStyle(color: colorTextPrimary),
+      child: OverlaySupport.global(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // supportedLocales: AppLocalizations.supportedLocales,
+          // localizationsDelegates: AppLocalizations.localizationsDelegates,
+          theme: ThemeData(
+            useMaterial3: true,
+            scaffoldBackgroundColor: colorPrimaryBG,
+            textTheme: TextTheme(
+              // displayLarge: TextStyle(color: colorTextPrimary),
+              // displayMedium: TextStyle(color: colorTextPrimary),
+              // displaySmall: TextStyle(color: colorTextPrimary),
+              titleLarge: TextStyle(color: colorTextPrimary),
+              titleMedium: TextStyle(color: colorTextPrimary),
+              // titleSmall: TextStyle(color: colorTextPrimary),
+              // labelLarge: TextStyle(color: colorTextPrimary),
+              // labelMedium: TextStyle(color: colorTextPrimary),
+              // labelSmall: TextStyle(color: colorTextPrimary),
+              // bodyLarge: TextStyle(color: colorTextPrimary),
+              bodyMedium: TextStyle(color: colorTextPrimary),
+              bodySmall: TextStyle(color: colorTextSecondary),
+              // headline1: TextStyle(color: colorTextPrimary),
+              // headline2: TextStyle(color: colorTextPrimary),
+              // headline3: TextStyle(color: colorTextPrimary),
+              headlineLarge: TextStyle(color: colorTextPrimary, fontSize: 40),
+              headlineMedium: TextStyle(color: colorTextPrimary),
+              // headlineSmall: TextStyle(color: colorTextPrimary),
+            ),
           ),
+          home: const ScreenSplash(),
         ),
-        home: const ScreenSplash(),
       ),
     );
   }

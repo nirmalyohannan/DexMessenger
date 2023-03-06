@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 import 'package:dex_messenger/Screens/ScreenMain/screen_main.dart';
 import 'package:dex_messenger/core/assets.dart';

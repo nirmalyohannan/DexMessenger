@@ -1,8 +1,4 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dex_messenger/Screens/ScreenHome/screen_home.dart';
 import 'package:dex_messenger/Screens/ScreenMain/screen_main.dart';
 import 'package:dex_messenger/Screens/ScreenUserInfo/widgets/user_info_dp_username_section.dart';
 import 'package:dex_messenger/Screens/widgets/dex_circle_button.dart';
@@ -11,7 +7,6 @@ import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/global_variables.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';

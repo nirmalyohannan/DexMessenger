@@ -6,7 +6,6 @@ import 'package:dex_messenger/Screens/ScreenUserInfo/screen_user_info.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/data/global_variables.dart';
 import 'package:dex_messenger/data/states/friends_provider.dart';
-import 'package:dex_messenger/data/states/live_emojis_provider.dart';
 import 'package:dex_messenger/data/states/recent_chat_provider.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
