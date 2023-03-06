@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/menu_button.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
@@ -67,8 +68,8 @@ class _DpChatScreen extends StatelessWidget {
           backgroundColor: colorPrimary,
           child: ClipRRect(
             borderRadius: kradiusCircular,
-            child: Image.network(
-              recipentDpUrl,
+            child: CachedNetworkImage(
+              imageUrl: recipentDpUrl,
               width: imageSize,
               height: imageSize,
               fit: BoxFit.cover,

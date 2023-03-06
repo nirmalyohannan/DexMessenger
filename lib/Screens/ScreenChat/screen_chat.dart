@@ -61,6 +61,7 @@ class ScreenChat extends StatelessWidget {
   }
 }
 
+//=================================================
 class _ChatFgSection extends StatelessWidget {
   const _ChatFgSection({required this.recipentUID});
 
@@ -78,42 +79,44 @@ class _ChatFgSection extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          MessageModel messageModel =
-              MessageModel.fromJson(snapshot.data!.data()!);
-          if (messageModel.type == 'liveEmoji') {
-            LiveEmojiModel activeEmoji = context
-                .read<LiveEmojisProvider>()
-                .findLiveEmoji(messageModel.content);
-            if (activeEmoji.foreground == null) {
-              log('ChatFgSection: No foreground to play');
-              return const SizedBox();
-            } else {
-              log('ChatFgSection: Playing foreground');
-              Uint8List? emojiForegroundFromMemory = context
+          if (snapshot.data!.data() != null) {
+            MessageModel messageModel =
+                MessageModel.fromJson(snapshot.data!.data()!);
+            if (messageModel.type == 'liveEmoji') {
+              LiveEmojiModel activeEmoji = context
                   .read<LiveEmojisProvider>()
-                  .liveEmojisForegroundMemoryMap[activeEmoji.foreground];
-
-              if (emojiForegroundFromMemory == null) {
-                return LottieBuilder.network(
-                  activeEmoji.foreground!,
-                  repeat: activeEmoji.foregroundRepeat ?? false,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                );
+                  .findLiveEmoji(messageModel.content);
+              if (activeEmoji.foreground == null) {
+                log('ChatFgSection: No foreground to play');
+                return const SizedBox();
               } else {
-                return LottieBuilder.memory(
-                  emojiForegroundFromMemory,
-                  repeat: activeEmoji.foregroundRepeat ?? false,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                );
+                log('ChatFgSection: Playing foreground');
+                Uint8List? emojiForegroundFromMemory = context
+                    .read<LiveEmojisProvider>()
+                    .liveEmojisForegroundMemoryMap[activeEmoji.foreground];
+
+                if (emojiForegroundFromMemory == null) {
+                  return LottieBuilder.network(
+                    activeEmoji.foreground!,
+                    repeat: activeEmoji.foregroundRepeat ?? false,
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                  );
+                } else {
+                  return LottieBuilder.memory(
+                    emojiForegroundFromMemory,
+                    repeat: activeEmoji.foregroundRepeat ?? false,
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                  );
+                }
               }
             }
           }
-          log('ChatFgSection: Last Message not LiveEmoji');
         }
+        log('ChatFgSection: Last Message not LiveEmoji');
         return const SizedBox();
       },
     );
@@ -137,43 +140,45 @@ class _ChatBgSection extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          MessageModel messageModel =
-              MessageModel.fromJson(snapshot.data!.data()!);
+          if (snapshot.data!.data() != null) {
+            MessageModel messageModel =
+                MessageModel.fromJson(snapshot.data!.data()!);
 
-          if (messageModel.type == 'liveEmoji') {
-            LiveEmojiModel activeEmoji = context
-                .read<LiveEmojisProvider>()
-                .findLiveEmoji(messageModel.content);
-
-            if (activeEmoji.background == null) {
-              log('ChatBGSection: No Background to Play');
-              return const SizedBox();
-            } else {
-              log('ChatBGSection: Playing background');
-              Uint8List? emojiBackgroundFromMemory = context
+            if (messageModel.type == 'liveEmoji') {
+              LiveEmojiModel activeEmoji = context
                   .read<LiveEmojisProvider>()
-                  .liveEmojisBackgroundMemoryMap[activeEmoji.background];
+                  .findLiveEmoji(messageModel.content);
 
-              if (emojiBackgroundFromMemory == null) {
-                return LottieBuilder.network(
-                  activeEmoji.background!,
-                  repeat: activeEmoji.backgroundRepeat ?? false,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                );
+              if (activeEmoji.background == null) {
+                log('ChatBGSection: No Background to Play');
+                return const SizedBox();
               } else {
-                return LottieBuilder.memory(
-                  emojiBackgroundFromMemory,
-                  repeat: activeEmoji.backgroundRepeat ?? false,
-                  fit: BoxFit.cover,
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                );
+                log('ChatBGSection: Playing background');
+                Uint8List? emojiBackgroundFromMemory = context
+                    .read<LiveEmojisProvider>()
+                    .liveEmojisBackgroundMemoryMap[activeEmoji.background];
+
+                if (emojiBackgroundFromMemory == null) {
+                  return LottieBuilder.network(
+                    activeEmoji.background!,
+                    repeat: activeEmoji.backgroundRepeat ?? false,
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                  );
+                } else {
+                  return LottieBuilder.memory(
+                    emojiBackgroundFromMemory,
+                    repeat: activeEmoji.backgroundRepeat ?? false,
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                  );
+                }
               }
             }
+            log('ChatBGSection: Last Message not LiveEmoji');
           }
-          log('ChatBGSection: Last Message not LiveEmoji');
         }
         return const SizedBox();
       },
