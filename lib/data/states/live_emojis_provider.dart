@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:typed_data';
+import 'package:dex_messenger/Screens/ScreenSplash/screen_splash.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +9,10 @@ import 'package:dex_messenger/data/models/live_emoji_model.dart';
 import 'package:flutter/material.dart';
 
 class LiveEmojisProvider extends ChangeNotifier {
+  bool isInitialised = false;
+  int totalEmojis =
+      1; //should not be 0 otherwise (loadedEmojis/totalEmojis == infinity)
+  int loadedEmojis = 0;
   List<LiveEmojiModel> liveEmojisList = [];
   var x = [];
   Map<String, Uint8List> liveEmojisMemoryMap = {};
@@ -33,6 +38,7 @@ class LiveEmojisProvider extends ChangeNotifier {
           LiveEmojiModel.fromJson(_liveEmojiModelBox.get(key)!, key);
       liveEmojisList.add(liveEmojiModel);
     }
+
     for (String key in _liveEmojiBox.keys) {
       liveEmojisMemoryMap[key] = _liveEmojiBox.get(key)!;
     }
@@ -55,7 +61,10 @@ class LiveEmojisProvider extends ChangeNotifier {
         .listen((event) async {
       log('LiveEmojiProvider: new Change Listened');
       var emojiDocs = event.docs;
-
+      //-------------------------------
+      totalEmojis = emojiDocs.length;
+      notifyListeners();
+      //---------------------------
       for (var emoji in emojiDocs) {
         LiveEmojiModel liveEmojiModel =
             LiveEmojiModel.fromJson(emoji.data(), emoji.id);
@@ -102,8 +111,11 @@ class LiveEmojisProvider extends ChangeNotifier {
           }
         }
         //-----------------------------------------------------
+        loadedEmojis = liveEmojisMemoryMap.length;
+        notifyListeners();
       }
 
+      isInitialised = true;
       notifyListeners();
     });
   }
