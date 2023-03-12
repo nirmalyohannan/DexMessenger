@@ -1,17 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dex_messenger/Screens/ScreenChat/widgets/menu_button.dart';
+import 'package:dex_messenger/Screens/ScreenRoomChat/widgets/room_menu_button.dart';
+import 'package:dex_messenger/Screens/widgets/flight_shuttle_builder.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
-import 'package:dex_messenger/data/models/recipent_info_model.dart';
+import 'package:dex_messenger/data/models/room_info_model.dart';
 import 'package:flutter/material.dart';
 
-class AppBarSectionChatScreen extends StatelessWidget {
-  const AppBarSectionChatScreen(
-      {super.key, required this.imageSize, required this.recipentInfoModel});
+class AppBarSectionRoomChatScreen extends StatelessWidget {
+  const AppBarSectionRoomChatScreen(
+      {super.key, required this.imageSize, required this.roomInfoModel});
 
   final double imageSize;
-  final RecipentInfoModel recipentInfoModel;
+  final RoomInfoModel roomInfoModel;
 
   @override
   Widget build(BuildContext context) {
@@ -29,18 +30,22 @@ class AppBarSectionChatScreen extends StatelessWidget {
               ),
               Flexible(
                 child: AutoSizeText(
-                  recipentInfoModel.recipentName,
+                  roomInfoModel.name,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
-              MenuButtonChatScreen(
-                recipentUID: recipentInfoModel.recipentUID,
-              )
+              RoomMenuButtonChatScreen(roomID: roomInfoModel.roomID)
+              // MenuButtonChatScreen(
+              //   recipentUID: recipentInfoModel.recipentUID,
+              // )
             ],
           ),
         ),
-        _DpChatScreen(
-            recipentInfoModel: recipentInfoModel, imageSize: imageSize),
+        Hero(
+            tag: roomInfoModel.roomID,
+            flightShuttleBuilder: flightShuttleBuilder,
+            child: _DpChatScreen(
+                roomDpUrl: roomInfoModel.imageUrl, imageSize: imageSize)),
       ],
     );
   }
@@ -48,11 +53,11 @@ class AppBarSectionChatScreen extends StatelessWidget {
 
 class _DpChatScreen extends StatelessWidget {
   const _DpChatScreen({
-    required this.recipentInfoModel,
+    required this.roomDpUrl,
     required this.imageSize,
   });
 
-  final RecipentInfoModel recipentInfoModel;
+  final String roomDpUrl;
   final double imageSize;
 
   @override
@@ -62,19 +67,16 @@ class _DpChatScreen extends StatelessWidget {
       child: Material(
         elevation: 20,
         borderRadius: kradiusCircular,
-        child: Hero(
-          tag: recipentInfoModel.recipentUID,
-          child: CircleAvatar(
-            radius: imageSize / 1.9,
-            backgroundColor: colorPrimary,
-            child: ClipRRect(
-              borderRadius: kradiusCircular,
-              child: CachedNetworkImage(
-                imageUrl: recipentInfoModel.recipentDpUrl,
-                width: imageSize,
-                height: imageSize,
-                fit: BoxFit.cover,
-              ),
+        child: CircleAvatar(
+          radius: imageSize / 1.9,
+          backgroundColor: colorPrimary,
+          child: ClipRRect(
+            borderRadius: kradiusCircular,
+            child: CachedNetworkImage(
+              imageUrl: roomDpUrl,
+              width: imageSize,
+              height: imageSize,
+              fit: BoxFit.cover,
             ),
           ),
         ),

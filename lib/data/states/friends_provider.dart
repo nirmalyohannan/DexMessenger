@@ -13,6 +13,20 @@ class FriendsProvider extends ChangeNotifier {
     return _friendshipStatusMap[recipentUID];
   }
 
+  List<String> getFriendsUidList() {
+    List<String> friendsUidList = [];
+    for (var key in _friendshipStatusMap.keys) {
+      if (_friendshipStatusMap[key]!.content == 'friends') {
+        if (_friendshipStatusMap[key]!.fromUID == userUID) {
+          friendsUidList.add(_friendshipStatusMap[key]!.toUID);
+        } else {
+          friendsUidList.add(_friendshipStatusMap[key]!.fromUID);
+        }
+      }
+    }
+    return friendsUidList;
+  }
+
   void initiate() {
     FirebaseFirestore.instance
         .collection('friends')

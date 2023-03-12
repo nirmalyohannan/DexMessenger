@@ -1,8 +1,7 @@
-import 'package:dex_messenger/data/models/message_model.dart';
 import 'package:dex_messenger/utils/convert_timezone.dart';
 import 'package:dex_messenger/utils/date_time_from_string.dart';
 
-String getMessageCardTime(MessageModel messageModel) {
+String getMessageCardTime(dynamic messageModel) {
   DateTime dateTime = dateTimeFromString(messageModel.createdTime);
   dateTime = convertTimeZoneToLocal(dateTime);
   String hour;

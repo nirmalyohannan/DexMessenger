@@ -4,7 +4,6 @@ import 'package:dex_messenger/Screens/widgets/dex_alert_dialog.dart';
 import 'package:dex_messenger/Screens/widgets/dex_button.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
-import 'package:dex_messenger/utils/NotificationService/notification_service.dart';
 import 'package:dex_messenger/utils/ScreenLogin/dex_google_login_in.dart';
 import 'package:dex_messenger/utils/ScreenSettings/clear_full_chats.dart';
 import 'package:flutter/material.dart';
@@ -93,12 +92,12 @@ class ScreenSettings extends StatelessWidget {
               }
             },
           ),
-          ElevatedButton(
-              onPressed: () {
-                NotificationService.showNotification(
-                    1, 'Sample Notification Title', 'Sample Notification Body');
-              },
-              child: const Text('Sample Notification Button'))
+          // ElevatedButton(
+          //     onPressed: () {
+          //       NotificationService.showNotification(
+          //           1, 'Sample Notification Title', 'Sample Notification Body');
+          //     },
+          //     child: const Text('Sample Notification Button'))
         ],
       )),
     );

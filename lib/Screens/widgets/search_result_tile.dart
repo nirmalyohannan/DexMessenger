@@ -6,9 +6,12 @@ import 'package:dex_messenger/data/models/recipent_info_model.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultTile extends StatelessWidget {
-  const SearchResultTile({super.key, required this.recipentInfo});
+  const SearchResultTile(
+      {super.key, required this.recipentInfo, this.trailing, this.subtitle});
 
   final RecipentInfoModel recipentInfo;
+  final Widget? trailing;
+  final Widget? subtitle;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -30,6 +33,8 @@ class SearchResultTile extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
+      subtitle: subtitle,
+      trailing: trailing,
       title: Text(
         recipentInfo.recipentName,
         style: const TextStyle(fontWeight: FontWeight.w400),

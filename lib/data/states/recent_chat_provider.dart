@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 
 class RecentChatProvider extends ChangeNotifier {
   Map<String, MessageModel> recentChat = {};
+  Map<String, String> recentChatFriendsName = {};
+
   late String userUID;
 
   initiate() {
@@ -14,13 +16,28 @@ class RecentChatProvider extends ChangeNotifier {
         .doc('recentChats')
         .collection(userUID)
         .snapshots()
-        .listen((event) {
-      for (var element in event.docs) {
-        MessageModel messageModel = MessageModel.fromJson(element.data());
+        .listen((event) async {
+      for (var element in event.docChanges) {
+        MessageModel messageModel = MessageModel.fromJson(element.doc.data()!);
         if (messageModel.fromUID == userUID) {
-          recentChat[messageModel.toUID] = messageModel;
+          String recipentUID = messageModel.toUID;
+          recentChat[recipentUID] = messageModel;
         } else {
-          recentChat[messageModel.fromUID] = messageModel;
+          String recipentUID = messageModel.fromUID;
+          recentChat[recipentUID] = messageModel;
+
+          if (recentChatFriendsName[recipentUID] == null) {
+            var recipentDoc = await FirebaseFirestore.instance
+                .collection('users')
+                .doc(recipentUID)
+                .get();
+            recentChatFriendsName[recipentUID] = recipentDoc.get('name');
+          }
+
+          // if (!isInForeground) {
+          //   NotificationService.showNotification(
+          //       2, recentChatFriendsName[recipentUID]!, messageModel.content);
+          // }
         }
       }
     });

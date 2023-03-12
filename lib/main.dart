@@ -1,21 +1,56 @@
 import 'package:dex_messenger/Screens/ScreenSplash/screen_splash.dart';
 import 'package:dex_messenger/core/colors.dart';
+import 'package:dex_messenger/data/states/room_provider.dart';
 import 'package:dex_messenger/data/states/friends_provider.dart';
 import 'package:dex_messenger/data/states/live_emojis_provider.dart';
 import 'package:dex_messenger/data/states/recent_chat_provider.dart';
+import 'package:dex_messenger/data/states/recent_room_chat_provider.dart';
 import 'package:dex_messenger/data/states/search_controller_provider.dart';
-
 import 'package:dex_messenger/data/states/user_info_provider.dart';
-import 'package:dex_messenger/utils/NotificationService/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() {
+// @pragma('vm:entry-point') // Mandatory
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) async {
+//     //Task to be Executed;
+//     log("Native called background task: ");
+//     log("+++++++++Native called background task: ");
+//     await NotificationService.init();
+//     await NotificationService.showNotification(
+//         0, 'Notification from Background Service', 'Called from Background');
+
+//     log('Entering Timer Periodic++++++++++');
+
+//     // Timer.periodic(const Duration(seconds: 5), (timer) async {
+//     //   count++;
+//     //   log("This Task is executed Every 5 Seconds: Current Count: $count");
+
+//     //   await NotificationService.showNotification(
+//     //       0, 'Notification from Background Service', 'Called from Background');
+//     // });
+
+//     log("::::::call Dispatcher Execution Completed::::::::s ");
+//     return Future.value(true);
+//   });
+// }
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  NotificationService.init();
+  // await NotificationService.init();
+
+  // Workmanager().initialize(
+  //     callbackDispatcher, // The top level function, aka callbackDispatcher
+  //     isInDebugMode:
+  //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+  //     );
+  // Workmanager()
+  //     .registerPeriodicTask('DexPeriodicTaskUniqueName', 'DexPeriodicTask');
+  // Workmanager().registerOneOffTask("task-identifier", "simpleTask");
+
   runApp(const DexMessenger());
 }
 
@@ -36,6 +71,9 @@ class DexMessenger extends StatelessWidget {
             create: (context) => LiveEmojisProvider()),
         ListenableProvider<RecentChatProvider>(
             create: (context) => RecentChatProvider()),
+        ListenableProvider<RoomProvider>(create: (context) => RoomProvider()),
+        ListenableProvider<RecentRoomChatProvider>(
+            create: (context) => RecentRoomChatProvider()),
       ],
       child: OverlaySupport.global(
         child: MaterialApp(

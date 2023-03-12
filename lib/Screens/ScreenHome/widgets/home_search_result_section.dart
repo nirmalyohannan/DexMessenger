@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dex_messenger/Screens/ScreenHome/widgets/search_result_tile.dart';
+import 'package:dex_messenger/Screens/widgets/search_result_tile.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/recipent_info_model.dart';

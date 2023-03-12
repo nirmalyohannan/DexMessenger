@@ -5,7 +5,7 @@ import 'package:dex_messenger/data/models/live_emoji_model.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
 import 'package:dex_messenger/data/states/live_emojis_provider.dart';
 import 'package:dex_messenger/data/states/recent_chat_provider.dart';
-import 'package:dex_messenger/utils/ScreenChat/get_message_card_time.dart';
+import 'package:dex_messenger/utils/get_message_card_time.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/message_card_options.dart';
 import 'package:dex_messenger/utils/ScreenChat/set_delivery_status_seen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
