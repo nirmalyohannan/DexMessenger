@@ -1,8 +1,9 @@
 import 'dart:developer';
-import 'package:dex_messenger/Screens/ScreenRoomDetails/widgets/widget_add_members.dart';
 import 'package:dex_messenger/core/colors.dart';
+import 'package:dex_messenger/data/states/room_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class RoomMenuButtonChatScreen extends StatelessWidget {
   const RoomMenuButtonChatScreen({
@@ -21,14 +22,11 @@ class RoomMenuButtonChatScreen extends StatelessWidget {
       ),
       itemBuilder: (context) => [
         _buildMenuButtonItem(
-            name: 'Add Friend',
+            name: 'Exit Room',
+            color: Colors.red,
             onpressed: () async {
-              await Future.delayed(const Duration(seconds: 0));
-              if (context.mounted) {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ScreenAddMembers(roomID: roomID),
-                ));
-              }
+              await context.read<RoomProvider>().exitFromRoom(roomID);
+              if (context.mounted) Navigator.pop(context);
             }),
       ],
     );
@@ -39,6 +37,7 @@ class RoomMenuButtonChatScreen extends StatelessWidget {
 PopupMenuItem<dynamic> _buildMenuButtonItem({
   required String name,
   required Function() onpressed,
+  Color? color,
 }) {
   return PopupMenuItem(
       onTap: () async {
@@ -49,11 +48,11 @@ PopupMenuItem<dynamic> _buildMenuButtonItem({
         children: [
           FaIcon(
             FontAwesomeIcons.userGroup,
-            color: colorTextPrimary,
+            color: color ?? colorTextPrimary,
           ),
           Text(
             name,
-            style: TextStyle(color: colorTextPrimary),
+            style: TextStyle(color: color ?? colorTextPrimary),
           )
         ],
       ));

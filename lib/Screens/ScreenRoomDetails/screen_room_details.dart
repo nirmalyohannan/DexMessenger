@@ -38,62 +38,67 @@ class ScreenRoomDetails extends StatelessWidget {
                 }
                 RoomInfoModel roomInfoModel =
                     RoomInfoModel.fromMap(snapshot.data!.data()!);
-                return Column(
-                  children: [
-                    _DpSection(roomID: roomID, roomInfoModel: roomInfoModel),
-                    kGapHeight30,
-                    isAdmin
-                        ? Builder(builder: (context) {
-                            TextEditingController textEditingController =
-                                TextEditingController(text: roomInfoModel.name);
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30),
-                              child: TextFormField(
-                                controller: textEditingController,
-                                onEditingComplete: () {
-                                  context.read<RoomProvider>().changeRoomName(
-                                      textEditingController.text.trim(),
-                                      roomID);
-                                },
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
-                                decoration: InputDecoration(
-                                  hintText: 'Room Name',
-                                  hintStyle: Theme.of(context)
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _DpSection(roomID: roomID, roomInfoModel: roomInfoModel),
+                      kGapHeight30,
+                      isAdmin
+                          ? Builder(builder: (context) {
+                              TextEditingController textEditingController =
+                                  TextEditingController(
+                                      text: roomInfoModel.name);
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
+                                child: TextFormField(
+                                  controller: textEditingController,
+                                  onEditingComplete: () {
+                                    context.read<RoomProvider>().changeRoomName(
+                                        textEditingController.text.trim(),
+                                        roomID);
+                                  },
+                                  style: Theme.of(context)
                                       .textTheme
-                                      .titleMedium!
-                                      .copyWith(color: colorTextSecondary),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 0, color: colorDisabledBG),
-                                      borderRadius: kradiusMedium),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 3, color: colorPrimary),
-                                      borderRadius: kradiusMedium),
-                                  fillColor: colorSecondaryBG,
-                                  filled: true,
+                                      .headlineMedium,
+                                  decoration: InputDecoration(
+                                    hintText: 'Room Name',
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(color: colorTextSecondary),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 0, color: colorDisabledBG),
+                                        borderRadius: kradiusMedium),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 3, color: colorPrimary),
+                                        borderRadius: kradiusMedium),
+                                    fillColor: colorSecondaryBG,
+                                    filled: true,
+                                  ),
                                 ),
-                              ),
-                            );
-                          })
-                        : Text(
-                            roomInfoModel.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(color: colorPrimary),
-                          ),
-                    kGapHeight30,
-                    _AddMemberAndAdminSection(isAdmin: isAdmin, roomID: roomID),
-                    Text(
-                      'Members',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    _MembersListView(
-                        roomInfoModel: roomInfoModel, isAdmin: isAdmin)
-                  ],
+                              );
+                            })
+                          : Text(
+                              roomInfoModel.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(color: colorPrimary),
+                            ),
+                      kGapHeight30,
+                      _AddMemberAndAdminSection(
+                          isAdmin: isAdmin, roomID: roomID),
+                      Text(
+                        'Members',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      _MembersListView(
+                          roomInfoModel: roomInfoModel, isAdmin: isAdmin)
+                    ],
+                  ),
                 );
               })),
     );

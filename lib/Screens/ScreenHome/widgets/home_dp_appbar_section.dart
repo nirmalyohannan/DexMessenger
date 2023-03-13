@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dex_messenger/Screens/ScreenHome/widgets/home_settings_button.dart';
+import 'package:dex_messenger/Screens/widgets/flight_shuttle_builder.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
@@ -21,22 +22,29 @@ class HomeDpNameAppBarSection extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ClipRRect(
-              borderRadius: kradiusCircular,
-              child: value.userDpUrl != null
-                  ? CachedNetworkImage(
-                      imageUrl: value.userDpUrl!,
-                      width: imageWidth,
-                      height: imageWidth,
-                      fit: BoxFit.cover,
-                    )
-                  : Center(
-                      child: CircularProgressIndicator(color: colorPrimary),
-                    ),
+            Hero(
+              tag: 'userDp',
+              child: ClipRRect(
+                borderRadius: kradiusCircular,
+                child: value.userDpUrl != null
+                    ? CachedNetworkImage(
+                        imageUrl: value.userDpUrl!,
+                        width: imageWidth,
+                        height: imageWidth,
+                        fit: BoxFit.cover,
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(color: colorPrimary),
+                      ),
+              ),
             ),
-            AutoSizeText(
-              value.userName ?? "No Name",
-              style: Theme.of(context).textTheme.headlineMedium,
+            Hero(
+              tag: 'userName',
+              flightShuttleBuilder: flightShuttleBuilder,
+              child: AutoSizeText(
+                value.userName ?? "No Name",
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
             ),
             const HomeSettingsButton(),
           ],

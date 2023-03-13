@@ -9,9 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<ScaffoldState> emojiDownloadSnackBarKey =
-    new GlobalKey<ScaffoldState>();
-
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({super.key});
 
@@ -36,7 +33,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
       context.read<LiveEmojisProvider>().initiate();
 
       while (context.read<LiveEmojisProvider>().isInitialised == false) {
-        await Future.delayed(Duration(milliseconds: 100));
+        await Future.delayed(const Duration(milliseconds: 100));
       }
       if (mounted) {
         Navigator.pushAndRemoveUntil(
@@ -64,6 +61,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
                 width: MediaQuery.of(context).size.width / 2,
               ),
             ),
+            kGapHeight30,
             Consumer<LiveEmojisProvider>(
                 builder: (context, liveEmojisProvider, child) {
               return Padding(

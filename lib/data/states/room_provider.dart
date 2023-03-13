@@ -9,6 +9,8 @@ import 'package:dex_messenger/utils/send_room_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class RoomProvider extends ChangeNotifier {
   String userUID = FirebaseAuth.instance.currentUser!.uid;
@@ -58,6 +60,9 @@ class RoomProvider extends ChangeNotifier {
       notifyListeners();
       var dpStorageRef =
           FirebaseStorage.instance.ref().child('roomDPs/$roomID.jpeg');
+      //---Compresses Image-----------------
+      dpFile = await FlutterNativeImage.compressImage(dpFile!.path);
+      //-----------------------------
       var uploadTask = await dpStorageRef.putFile(dpFile!);
       isUploadingDP = false;
       notifyListeners();
@@ -111,6 +116,24 @@ class RoomProvider extends ChangeNotifier {
     }
     notifyListeners();
     return null;
+  }
+
+//------------
+  Future<void> exitFromRoom(String roomID) async {
+    await FirebaseFirestore.instance
+        .collection('roomChats')
+        .doc(roomID)
+        .update({
+      'membersUID': FieldValue.arrayRemove([userUID])
+    });
+    await FirebaseFirestore.instance
+        .collection('roomChats')
+        .doc(roomID)
+        .update({
+      'adminsUID': FieldValue.arrayRemove([userUID])
+    });
+    showSimpleNotification(const Text('You have exited from the Room'),
+        autoDismiss: true);
   }
 
   //--------------------------------------------
@@ -168,7 +191,7 @@ class RoomProvider extends ChangeNotifier {
     var memberInfo = await getRecipentInfo(memberUID);
     RoomMessageModel roomMessageModel = RoomMessageModel(
         'roomActivity',
-        'Removed ${memberInfo.recipentName} from Admins',
+        'Added ${memberInfo.recipentName} to Admins',
         userUID,
         roomID,
         DateTime.now().toUtc().toString(), [], []);
@@ -189,7 +212,7 @@ class RoomProvider extends ChangeNotifier {
     var memberInfo = await getRecipentInfo(memberUID);
     RoomMessageModel roomMessageModel = RoomMessageModel(
         'roomActivity',
-        'Added ${memberInfo.recipentName} to Admins',
+        'Removed ${memberInfo.recipentName} from Admins',
         userUID,
         roomID,
         DateTime.now().toUtc().toString(), [], []);

@@ -147,19 +147,22 @@ class _DpImage extends StatelessWidget {
       );
     }
 
-    return ClipRRect(
-      borderRadius: kradiusCircular,
-      child: Image.network(
-        userInfo.userDpUrl!,
-        width: diameter,
-        height: diameter,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, loadingProgress) =>
-            loadingProgress == null
-                ? child
-                : CircularProgressIndicator(
-                    color: colorPrimary,
-                  ),
+    return Hero(
+      tag: 'userDp',
+      child: ClipRRect(
+        borderRadius: kradiusCircular,
+        child: Image.network(
+          userInfo.userDpUrl!,
+          width: diameter,
+          height: diameter,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) =>
+              loadingProgress == null
+                  ? child
+                  : CircularProgressIndicator(
+                      color: colorPrimary,
+                    ),
+        ),
       ),
     );
   }

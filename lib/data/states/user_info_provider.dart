@@ -6,6 +6,7 @@ import 'package:dex_messenger/data/models/recipent_info_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 
 class UserInfoProvider extends ChangeNotifier {
   String? userDpUrl;
@@ -37,6 +38,9 @@ class UserInfoProvider extends ChangeNotifier {
     notifyListeners();
     String userUID = FirebaseAuth.instance.currentUser!.uid;
     var storageRef = FirebaseStorage.instance.ref().child('dp/$userUID.jpeg');
+    //---Compresses Image-----------------
+    imageFile = await FlutterNativeImage.compressImage(imageFile.path);
+    //-----------------------------
     log("Going to Upload Dp File");
     var uploadTask = await storageRef.putFile(imageFile);
     log("Upload Dp File Completed");

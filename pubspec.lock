@@ -153,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  countdown_progress_indicator:
+    dependency: "direct main"
+    description:
+      name: countdown_progress_indicator
+      sha256: "6b9f0110b7b695c95c02efd3ba20c68dad150b314315d4f309dda862302966d0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   cross_file:
     dependency: transitive
     description:
@@ -350,6 +358,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+  flutter_native_image:
+    dependency: "direct main"
+    description:
+      name: flutter_native_image
+      sha256: "0ff23d6222064259df8f85ea56925627ea1ec8658814672c5b6c23fc9174c65e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6+1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:

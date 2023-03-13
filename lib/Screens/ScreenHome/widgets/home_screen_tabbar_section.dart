@@ -1,5 +1,6 @@
 import 'package:dex_messenger/Screens/ScreenHome/widgets/widget_direct_chat.dart';
 import 'package:dex_messenger/Screens/ScreenHome/widgets/widget_room_chat.dart';
+import 'package:dex_messenger/Screens/ScreenHome/widgets/widget_stories.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 
@@ -20,7 +21,7 @@ class _HomeScreenTabBarSectionState extends State<HomeScreenTabBarSection>
   late final TabController tabBarController;
   @override
   void initState() {
-    tabBarController = TabController(length: 2, vsync: this);
+    tabBarController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -43,10 +44,13 @@ class _HomeScreenTabBarSectionState extends State<HomeScreenTabBarSection>
                 unselectedLabelStyle: Theme.of(context).textTheme.titleSmall,
                 tabs: const [
                   Tab(
-                    text: "Direct Chat",
+                    text: "Chats",
                   ),
                   Tab(
-                    text: "Room Chat",
+                    text: "Rooms",
+                  ),
+                  Tab(
+                    text: "Stories",
                   )
                 ]),
           ),
@@ -54,6 +58,7 @@ class _HomeScreenTabBarSectionState extends State<HomeScreenTabBarSection>
             child: TabBarView(controller: tabBarController, children: const [
               WidgetDirectChat(),
               WidgetRoomChat(),
+              WidgetStories()
             ]),
           ),
         ],
