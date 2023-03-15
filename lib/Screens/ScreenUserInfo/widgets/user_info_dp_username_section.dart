@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
@@ -151,17 +152,11 @@ class _DpImage extends StatelessWidget {
       tag: 'userDp',
       child: ClipRRect(
         borderRadius: kradiusCircular,
-        child: Image.network(
-          userInfo.userDpUrl!,
+        child: CachedNetworkImage(
+          imageUrl: userInfo.userDpUrl!,
           width: diameter,
           height: diameter,
           fit: BoxFit.cover,
-          loadingBuilder: (context, child, loadingProgress) =>
-              loadingProgress == null
-                  ? child
-                  : CircularProgressIndicator(
-                      color: colorPrimary,
-                    ),
         ),
       ),
     );

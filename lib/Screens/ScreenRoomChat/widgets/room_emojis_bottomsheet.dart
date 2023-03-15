@@ -6,7 +6,7 @@ import 'package:dex_messenger/data/models/room_info_model.dart';
 import 'package:dex_messenger/data/models/room_message_model.dart';
 import 'package:dex_messenger/data/states/live_emojis_provider.dart';
 import 'package:dex_messenger/data/states/recent_room_chat_provider.dart';
-import 'package:dex_messenger/utils/send_room_message.dart';
+import 'package:dex_messenger/utils/ScreenRoomChat/send_room_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

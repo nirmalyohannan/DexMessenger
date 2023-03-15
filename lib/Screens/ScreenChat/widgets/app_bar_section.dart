@@ -1,9 +1,15 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/Screens/ScreenChat/widgets/menu_button.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/recipent_info_model.dart';
+import 'package:dex_messenger/utils/get_message_card_time.dart';
+import 'package:dex_messenger/utils/get_online_status.dart';
+import 'package:dex_messenger/utils/get_story_view_time.dart';
 import 'package:flutter/material.dart';
 
 class AppBarSectionChatScreen extends StatelessWidget {
@@ -27,11 +33,20 @@ class AppBarSectionChatScreen extends StatelessWidget {
               SizedBox(
                 width: imageSize,
               ),
-              Flexible(
-                child: AutoSizeText(
-                  recipentInfoModel.recipentName,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: AutoSizeText(
+                      recipentInfoModel.recipentName,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ),
+                  _RecipentOnlineStatus(
+                    recipentUID: recipentInfoModel.recipentUID,
+                  )
+                ],
               ),
               MenuButtonChatScreen(
                 recipentUID: recipentInfoModel.recipentUID,
@@ -45,6 +60,42 @@ class AppBarSectionChatScreen extends StatelessWidget {
     );
   }
 }
+
+//-----------------------------------
+class _RecipentOnlineStatus extends StatelessWidget {
+  const _RecipentOnlineStatus({
+    required this.recipentUID,
+  });
+
+  final String recipentUID;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: getOnlineStatusStream(recipentUID),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        }
+
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Visibility(
+                visible: snapshot.data! == 'online',
+                child: const CircleAvatar(
+                  backgroundColor: Colors.greenAccent,
+                  radius: 5,
+                )),
+            kGapWidth5,
+            Text(snapshot.data!),
+          ],
+        );
+      },
+    );
+  }
+}
+
+//-------------------------------------------------------
 
 class _DpChatScreen extends StatelessWidget {
   const _DpChatScreen({

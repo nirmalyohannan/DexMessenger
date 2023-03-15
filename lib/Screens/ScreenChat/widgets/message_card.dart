@@ -81,11 +81,13 @@ class _MessageCardLiveEmoji extends StatelessWidget {
           liveEmojiFromMemory == null
               ? LottieBuilder.network(
                   liveEmojiModel.emoji,
+                  animate: isLastMessage,
                   repeat: isLastMessage,
                   width: MediaQuery.of(context).size.width / 2,
                 )
               : LottieBuilder.memory(
                   liveEmojiFromMemory,
+                  animate: isLastMessage,
                   repeat: isLastMessage,
                   width: MediaQuery.of(context).size.width / 2,
                 ),

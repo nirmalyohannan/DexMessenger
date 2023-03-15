@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/data/models/room_info_model.dart';
 import 'package:dex_messenger/data/models/room_message_model.dart';
 import 'package:dex_messenger/utils/ScreenHome/get_recipent_Info.dart';
-import 'package:dex_messenger/utils/send_room_message.dart';
+import 'package:dex_messenger/utils/ScreenRoomChat/send_room_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';

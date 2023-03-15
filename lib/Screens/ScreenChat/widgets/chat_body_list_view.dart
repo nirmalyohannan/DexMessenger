@@ -63,7 +63,7 @@ class ChatBodyListView extends StatelessWidget {
                         stickyHeaderDate: date,
                         messageModelList:
                             dateCategorisedList[index].reversed.toList(),
-                        isLastCategory: index == dateCategorisedList.length - 1,
+                        // isLastCategory: index == dateCategorisedList.length - 1,
                         recipentUID: recipentUID);
                   }),
             );

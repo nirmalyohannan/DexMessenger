@@ -6,17 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class DateCategorisedMessageList extends StatelessWidget {
-  const DateCategorisedMessageList(
-      {super.key,
-      required this.messageModelList,
-      required this.recipentUID,
-      required this.stickyHeaderDate,
-      required this.isLastCategory});
+  const DateCategorisedMessageList({
+    super.key,
+    required this.messageModelList,
+    required this.recipentUID,
+    required this.stickyHeaderDate,
+    // required this.isLastCategory,
+  });
 
   final List<MessageModel> messageModelList;
   final String recipentUID;
   final String stickyHeaderDate;
-  final bool isLastCategory;
+  // final bool isLastCategory;
   @override
   Widget build(BuildContext context) {
     return StickyHeader(

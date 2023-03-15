@@ -8,6 +8,7 @@ import 'package:dex_messenger/data/models/recipent_info_model.dart';
 import 'package:dex_messenger/data/models/room_message_model.dart';
 import 'package:dex_messenger/data/states/live_emojis_provider.dart';
 import 'package:dex_messenger/data/states/recent_room_chat_provider.dart';
+import 'package:dex_messenger/utils/ScreenRoomChat/set_room_message_seen.dart';
 import 'package:dex_messenger/utils/get_message_card_time.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -26,6 +27,8 @@ class RoomMessageCardChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setRoomMessageSeen(messageModel);
+
     // setDeliveryStatusSeen(messageModel,
     //     recipentUID); //To set deliveryStatus to seen for the recieved messages
     switch (messageModel.type) {

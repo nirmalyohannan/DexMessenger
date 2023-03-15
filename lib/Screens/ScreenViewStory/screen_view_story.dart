@@ -4,7 +4,9 @@ import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/recipent_info_model.dart';
 import 'package:dex_messenger/data/models/story_model.dart';
+import 'package:dex_messenger/utils/delete_story.dart';
 import 'package:dex_messenger/utils/get_story_view_time.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ScreenViewStory extends StatelessWidget {
@@ -17,7 +19,7 @@ class ScreenViewStory extends StatelessWidget {
   Widget build(BuildContext context) {
     final PageController pageController = PageController();
     final ValueNotifier<int> currentStoryIndexNotifier = ValueNotifier(0);
-
+    String userUID = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -27,7 +29,6 @@ class ScreenViewStory extends StatelessWidget {
           PageView(
             onPageChanged: (value) {
               currentStoryIndexNotifier.value = value;
-              // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
               currentStoryIndexNotifier.notifyListeners();
             },
             controller: pageController,
@@ -35,35 +36,12 @@ class ScreenViewStory extends StatelessWidget {
                 storyModel.storiesList.length,
                 (index) => Stack(
                       children: [
-                        Center(
-                          child: CachedNetworkImage(
-                            imageUrl: storyModel.storiesList[index].url,
-                            progressIndicatorBuilder:
-                                (context, url, progress) => Center(
-                              child: CircularProgressIndicator(
-                                color: colorTextPrimary,
-                                value: progress.totalSize != null
-                                    ? progress.downloaded / progress.totalSize!
-                                    : null,
-                              ),
-                            ),
-                          ),
-                        ),
-                        ListTile(
-                          contentPadding:
-                              const EdgeInsets.only(top: 10, left: 10),
-                          title: Text(recipentInfoModel.recipentName),
-                          subtitle: Text(getStoryViewTime(
-                              storyModel.storiesList[index].createdTime)),
-                          leading: ClipRRect(
-                              borderRadius: kradiusCircular,
-                              child: CachedNetworkImage(
-                                imageUrl: recipentInfoModel.recipentDpUrl,
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              )),
-                        )
+                        _StoryContentSection(
+                            imageUrl: storyModel.storiesList[index].url),
+                        _StoryListTileSection(
+                            recipentInfoModel: recipentInfoModel,
+                            singleStoryModel: storyModel.storiesList[index],
+                            userUID: userUID)
                       ],
                     )),
           ),
@@ -74,6 +52,70 @@ class ScreenViewStory extends StatelessWidget {
           )
         ],
       )),
+    );
+  }
+}
+
+class _StoryContentSection extends StatelessWidget {
+  const _StoryContentSection({required this.imageUrl});
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        progressIndicatorBuilder: (context, url, progress) => Center(
+          child: CircularProgressIndicator(
+            color: colorTextPrimary,
+            value: progress.totalSize != null
+                ? progress.downloaded / progress.totalSize!
+                : null,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StoryListTileSection extends StatelessWidget {
+  const _StoryListTileSection(
+      {super.key,
+      required this.recipentInfoModel,
+      required this.userUID,
+      required this.singleStoryModel});
+
+  final RecipentInfoModel recipentInfoModel;
+  final SingleStoryModel singleStoryModel;
+  final String userUID;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      title: Text(recipentInfoModel.recipentName),
+      subtitle: Text(getStoryViewTime(singleStoryModel.createdTime)),
+      leading: ClipRRect(
+          borderRadius: kradiusCircular,
+          child: CachedNetworkImage(
+            imageUrl: recipentInfoModel.recipentDpUrl,
+            width: 50,
+            height: 50,
+            fit: BoxFit.cover,
+          )),
+      trailing: Visibility(
+        visible: userUID == recipentInfoModel.recipentUID,
+        child: IconButton(
+          onPressed: () {
+            deleteStory(context, singleStoryModel);
+          },
+          icon: const Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

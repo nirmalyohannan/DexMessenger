@@ -1,4 +1,4 @@
-getStickyHeaderDate(String dateTimeString) {
+String getStickyHeaderDate(String dateTimeString) {
   String chatStickyHeaderDate = '';
   DateTime messageDateTime = DateTime.parse(dateTimeString);
   DateTime currentDateTime = DateTime.now().toUtc();
