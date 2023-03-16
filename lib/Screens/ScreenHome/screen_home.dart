@@ -20,7 +20,7 @@ class ScreenHome extends StatelessWidget {
   Widget build(BuildContext context) {
     //------------------------------
     Timer.periodic(
-      const Duration(seconds: 5),
+      const Duration(seconds: 15),
       (timer) => refreshOnlineStatus(),
     );
 //-----------------------------------

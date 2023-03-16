@@ -44,7 +44,7 @@ Stream<String> getOnlineStatusStream(String recipentUID) async* {
       }
     }
 
-    Future.delayed(const Duration(seconds: 5));
+    Future.delayed(const Duration(seconds: 14));
   }
 
   //---------------------------
