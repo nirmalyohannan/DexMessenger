@@ -3,7 +3,9 @@ import 'package:dex_messenger/Screens/ScreenMain/screen_main.dart';
 import 'package:dex_messenger/core/assets.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
+import 'package:dex_messenger/data/states/app_settings_provider.dart';
 import 'package:dex_messenger/data/states/live_emojis_provider.dart';
+import 'package:dex_messenger/utils/local_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -31,11 +33,20 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
     if (context.mounted) {
       context.read<LiveEmojisProvider>().initiate();
+      await context.read<AppSettingsProvider>().init();
+
+      bool isAppLockEnabled =
+          context.read<AppSettingsProvider>().isAppLockEnabled;
+      bool isAuthenticated = true;
+      if (isAppLockEnabled) {
+        isAuthenticated = await authenticate();
+      }
 
       while (context.read<LiveEmojisProvider>().isInitialised == false) {
         await Future.delayed(const Duration(milliseconds: 100));
       }
-      if (mounted) {
+
+      if (mounted && isAuthenticated) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const ScreenMain()),

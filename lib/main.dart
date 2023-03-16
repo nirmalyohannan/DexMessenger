@@ -1,5 +1,6 @@
 import 'package:dex_messenger/Screens/ScreenSplash/screen_splash.dart';
 import 'package:dex_messenger/core/colors.dart';
+import 'package:dex_messenger/data/states/app_settings_provider.dart';
 import 'package:dex_messenger/data/states/room_provider.dart';
 import 'package:dex_messenger/data/states/friends_provider.dart';
 import 'package:dex_messenger/data/states/live_emojis_provider.dart';
@@ -74,6 +75,8 @@ class DexMessenger extends StatelessWidget {
         ListenableProvider<RoomProvider>(create: (context) => RoomProvider()),
         ListenableProvider<RecentRoomChatProvider>(
             create: (context) => RecentRoomChatProvider()),
+        ListenableProvider<AppSettingsProvider>(
+            create: (context) => AppSettingsProvider()),
       ],
       child: OverlaySupport.global(
         child: MaterialApp(

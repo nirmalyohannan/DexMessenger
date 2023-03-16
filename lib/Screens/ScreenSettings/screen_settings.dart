@@ -7,6 +7,7 @@ import 'package:dex_messenger/Screens/widgets/dex_text_icon_button.dart';
 import 'package:dex_messenger/Screens/widgets/flight_shuttle_builder.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
+import 'package:dex_messenger/data/states/app_settings_provider.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
 import 'package:dex_messenger/utils/ScreenLogin/dex_google_login_in.dart';
 import 'package:dex_messenger/utils/ScreenSettings/clear_full_chats.dart';
@@ -48,6 +49,7 @@ class ScreenSettings extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(),
+                const _AppLockSection(),
                 const _EditUserInfoSection(),
                 //------------------------------------------------
                 const _ClearFullChatsSection(),
@@ -62,6 +64,41 @@ class ScreenSettings extends StatelessWidget {
   }
 }
 
+///---------------------------------------
+
+class _AppLockSection extends StatelessWidget {
+  const _AppLockSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      kGapWidth10,
+      const Icon(
+        Icons.lock,
+        color: Colors.grey,
+      ),
+      kGapWidth10,
+      Text(
+        "App Lock",
+        style: Theme.of(context)
+            .textTheme
+            .headlineMedium!
+            .copyWith(color: Colors.grey),
+      ),
+      const Spacer(),
+      Switch(
+        activeColor: colorPrimary,
+        value: context.watch<AppSettingsProvider>().isAppLockEnabled,
+        onChanged: (value) {
+          context.read<AppSettingsProvider>().setAppLock(enable: value);
+        },
+      ),
+      kGapWidth10,
+    ]);
+  }
+}
+
+//-------------------------------------------
 class _SettingsTitleSection extends StatelessWidget {
   const _SettingsTitleSection();
 
@@ -108,6 +145,7 @@ class _UserDpSection extends StatelessWidget {
   }
 }
 
+//------------------------------------------------------
 class _EditUserInfoSection extends StatelessWidget {
   const _EditUserInfoSection();
 
