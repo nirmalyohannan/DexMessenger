@@ -1,13 +1,12 @@
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dex_messenger/Screens/ScreenRoomChat/screen_room_chat.dart';
 import 'package:dex_messenger/Screens/widgets/dex_routes.dart';
 import 'package:dex_messenger/Screens/widgets/flight_shuttle_builder.dart';
 import 'package:dex_messenger/core/colors.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/room_info_model.dart';
-import 'package:dex_messenger/utils/ScreenRooms/get_room_chat_tile_notification_number.dart';
 import 'package:dex_messenger/utils/ScreenRooms/get_room_chat_tile_time.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -82,20 +81,25 @@ class _NotificationBadgeRoomChatTile extends StatelessWidget {
   final String roomID;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    String userUID = FirebaseAuth.instance.currentUser!.uid;
+    return StreamBuilder(
         // future: getChatTileNotificationNumber(recipentUID: recipentUID),
-        future: getRoomChatTileNotification(roomID),
+        stream: FirebaseFirestore.instance
+            .collection('roomChats')
+            .doc(roomID)
+            .collection('messages')
+            .where('notSeenUID', arrayContains: userUID)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data == 0) {
-              // ignore: prefer_const_constructors
-              return SizedBox();
+            if (snapshot.data!.docs.isEmpty) {
+              return const SizedBox();
             }
             return CircleAvatar(
               radius: 11,
               backgroundColor: colorPrimary,
               child: Text(
-                snapshot.data!.toString(),
+                snapshot.data!.docs.length.toString(),
                 style: TextStyle(
                     color: colorTextPrimary,
                     fontSize: 14,
