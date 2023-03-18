@@ -26,9 +26,9 @@ jobs:
       - name: Creating Google Service JSON
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run:  touch /android/app/google-services.json 
-              echo $DATA >> /android/app/google-services.json
-              cat /android/app/google-services.json
+        run:  touch ${{ github.workspace }}/android/app/google-services.json 
+              echo $DATA >> ${{ github.workspace }}/android/app/google-services.json
+              cat ${{ github.workspace }}/android/app/google-services.json
         working-directory: dex_messenger
       # - run:  flutter test
       - run:  flutter build apk --release --split-per-abi
