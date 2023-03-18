@@ -24,12 +24,12 @@ jobs:
       # Google Services Json is gitignored therefore have to add from github secrets
       # Google Services Json is a file obtained from firebase configurations
       - name: Creating Google Service JSON
+        working-directory: dex_messenger
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run:  touch ${{ github.workspace }}/android/app/google-services.json 
               echo $DATA >> ${{ github.workspace }}/android/app/google-services.json
               cat ${{ github.workspace }}/android/app/google-services.json
-        working-directory: dex_messenger
       # - run:  flutter test
       - run:  flutter build apk --release --split-per-abi
       - name: Push to Releases
