@@ -8,6 +8,8 @@ import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/models/message_model.dart';
 import 'package:dex_messenger/data/models/recipent_info_model.dart';
 import 'package:dex_messenger/data/states/friends_provider.dart';
+import 'package:dex_messenger/data/states/user_info_provider.dart';
+import 'package:dex_messenger/utils/NotificationService/notification_service.dart';
 import 'package:dex_messenger/utils/send_message.dart';
 
 import 'package:flutter/material.dart';
@@ -43,7 +45,7 @@ class ChatBox extends StatelessWidget {
                 switch (currentStatus.content) {
                   case 'friends':
                     return _ChatBoxSection(
-                        recipentUID: recipentInfoModel.recipentUID,
+                        recipentInfoModel: recipentInfoModel,
                         scrollController: scrollController,
                         textEditingController: textEditingController);
 
@@ -88,7 +90,7 @@ class ChatBox extends StatelessWidget {
                 );
               }
               return _ChatBoxSection(
-                  recipentUID: recipentInfoModel.recipentUID,
+                  recipentInfoModel: recipentInfoModel,
                   scrollController: scrollController,
                   textEditingController: textEditingController);
             },
@@ -102,12 +104,12 @@ class ChatBox extends StatelessWidget {
 class _ChatBoxSection extends StatelessWidget {
   const _ChatBoxSection({
     required this.textEditingController,
-    required this.recipentUID,
+    required this.recipentInfoModel,
     required this.scrollController,
   });
 
   final TextEditingController textEditingController;
-  final String recipentUID;
+  final RecipentInfoModel recipentInfoModel;
   final ScrollController scrollController;
 
   @override
@@ -120,7 +122,7 @@ class _ChatBoxSection extends StatelessWidget {
             showModalBottomSheet(
               context: context,
               builder: (context) => EmojisBottomSheet(
-                recipentUID: recipentUID,
+                recipentUID: recipentInfoModel.recipentUID,
               ),
             );
           },
@@ -156,7 +158,7 @@ class _ChatBoxSection extends StatelessWidget {
         kGapWidth10,
         _SendButton(
           textEditingController: textEditingController,
-          recipentUID: recipentUID,
+          recipentInfoModel: recipentInfoModel,
           scrollController: scrollController,
         ),
       ],
@@ -167,12 +169,12 @@ class _ChatBoxSection extends StatelessWidget {
 class _SendButton extends StatelessWidget {
   const _SendButton({
     required this.textEditingController,
-    required this.recipentUID,
+    required this.recipentInfoModel,
     required this.scrollController,
   });
 
   final TextEditingController textEditingController;
-  final String recipentUID;
+  final RecipentInfoModel recipentInfoModel;
   final ScrollController scrollController;
 
   @override
@@ -189,7 +191,18 @@ class _SendButton extends StatelessWidget {
           sendMessage(
               type: 'string',
               content: textEditingController.text.trim(),
-              recipentUID: recipentUID); //To write in Background Service
+              recipentUID: recipentInfoModel
+                  .recipentUID); //To write in Background Service
+
+          if (recipentInfoModel.recipentFcmToken != null) {
+            log('recipentFCM TOKEN is not null: Sending Push Notification');
+            sendPushMessage(
+                textEditingController.text.trim(),
+                context.read<UserInfoProvider>().userName.toString(),
+                recipentInfoModel.recipentFcmToken!);
+          } else {
+            log('recipentFCM TOKEN is  null: Cannot Send Push Notification');
+          }
 
           textEditingController.clear();
           // FocusScope.of(context).unfocus(); //To unfocus Keyboard

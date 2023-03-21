@@ -7,6 +7,7 @@ import 'package:dex_messenger/Screens/ScreenHome/widgets/home_search_result_sect
 import 'package:dex_messenger/Screens/ScreenHome/widgets/widget_foreground_monitor.dart';
 import 'package:dex_messenger/core/presentaion_constants.dart';
 import 'package:dex_messenger/data/states/search_controller_provider.dart';
+import 'package:dex_messenger/utils/NotificationService/notification_service.dart';
 import 'package:dex_messenger/utils/ScreenHome/listen_messages.dart';
 import 'package:dex_messenger/utils/listen_update_user_info.dart';
 import 'package:dex_messenger/utils/refresh_online_status.dart';
@@ -18,6 +19,9 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      updateFCMToken();
+    });
     //------------------------------
     Timer.periodic(
       const Duration(seconds: 15),
