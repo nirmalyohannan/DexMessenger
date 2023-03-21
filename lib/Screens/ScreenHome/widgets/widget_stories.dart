@@ -56,8 +56,8 @@ class WidgetStories extends StatelessWidget {
                           child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          LottieBuilder.network(
-                              'https://assets7.lottiefiles.com/packages/lf20_BLFBckH5mM.json'),
+                          LottieBuilder.asset(
+                              'assets/storyScreen/noStoriesLottie.json'),
                           const Text(
                             'No Stories to View!',
                             style: TextStyle(

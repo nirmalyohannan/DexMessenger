@@ -106,6 +106,7 @@ flutter:
   assets:
     - assets/
     - assets/loginScreen/
+    - assets/storyScreen/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
