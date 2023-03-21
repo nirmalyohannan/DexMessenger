@@ -26,12 +26,8 @@ class WidgetStories extends StatelessWidget {
       alignment: Alignment.bottomRight,
       children: [
         StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('stories')
-                .where('uid',
-                    whereIn:
-                        context.read<FriendsProvider>().getFriendsUidList())
-                .snapshots(),
+            stream:
+                FirebaseFirestore.instance.collection('stories').snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(
@@ -41,9 +37,14 @@ class WidgetStories extends StatelessWidget {
               List<StoryModel> storyModelList = [];
 
               for (var doc in snapshot.data!.docs) {
-                StoryModel storyModel = StoryModel.fromMap(doc.data());
-                if (storyModel.storiesList.isNotEmpty) {
-                  storyModelList.add(storyModel);
+                if (context
+                    .read<FriendsProvider>()
+                    .getFriendsUidList()
+                    .contains(doc.id)) {
+                  StoryModel storyModel = StoryModel.fromMap(doc.data());
+                  if (storyModel.storiesList.isNotEmpty) {
+                    storyModelList.add(storyModel);
+                  }
                 }
               }
               return FutureBuilder(
