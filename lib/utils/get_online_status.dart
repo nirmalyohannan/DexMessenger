@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dex_messenger/core/constants.dart';
 import 'package:dex_messenger/utils/convert_timezone.dart';
 import 'package:dex_messenger/utils/date_time_from_string.dart';
 
@@ -16,7 +17,7 @@ Stream<String> getOnlineStatusStream(String recipentUID) async* {
         dateTime = convertTimeZoneToLocal(dateTime);
 
         if (DateTime.now()
-            .subtract(const Duration(seconds: 10))
+            .subtract(const Duration(seconds: onlineStatusRefreshDuration + 5))
             .compareTo(dateTime)
             .isNegative) {
           yield 'online';
@@ -43,8 +44,7 @@ Stream<String> getOnlineStatusStream(String recipentUID) async* {
         }
       }
     }
-
-    Future.delayed(const Duration(seconds: 14));
+    Future.delayed(const Duration(seconds: onlineStatusRefreshDuration));
   }
 
   //---------------------------

@@ -73,17 +73,26 @@ class _ScreenSplashState extends State<ScreenSplash> {
               ),
             ),
             kGapHeight30,
-            Consumer<LiveEmojisProvider>(
-                builder: (context, liveEmojisProvider, child) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: LinearProgressIndicator(
-                    color: colorPrimary,
-                    backgroundColor: colorTextPrimary,
-                    value: liveEmojisProvider.loadedEmojis /
-                        liveEmojisProvider.totalEmojis),
-              );
-            })
+            FutureBuilder(
+                future: Future.delayed(const Duration(
+                    seconds:
+                        2)), //Only shows loading progress after 2 seconds, THis avoid loading progress indicators in normal startups
+                builder: (context, snapshot) {
+                  return Consumer<LiveEmojisProvider>(
+                      builder: (context, liveEmojisProvider, child) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return const SizedBox();
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: LinearProgressIndicator(
+                          color: colorPrimary,
+                          backgroundColor: colorTextPrimary,
+                          value: liveEmojisProvider.loadedEmojis /
+                              liveEmojisProvider.totalEmojis),
+                    );
+                  });
+                })
           ],
         ),
       ),
