@@ -23,6 +23,9 @@ void sendPushMessage(String body, String title, String token) async {
           'notification': <String, dynamic>{
             'body': body,
             'title': title,
+
+            "android_channel_id": "messageChannelID", // For Android >= 8
+            "channel_id": "messageChannelID", // For Android Version < 8
           },
           'priority': 'high',
           'data': <String, dynamic>{
@@ -55,10 +58,14 @@ void listenFCM() async {
         notification.body,
         const NotificationDetails(
           android: AndroidNotificationDetails(
-            'DexchannelId',
-            'Messages',
-            icon: 'launch_foreground',
-          ),
+              'messageChannelID', 'Message Channel',
+              icon: 'launch_foreground',
+              importance: Importance.high,
+              priority: Priority.high,
+              fullScreenIntent: true,
+              enableVibration: true,
+              ongoing: true,
+              playSound: true),
         ),
       );
     }
@@ -69,11 +76,11 @@ void listenFCM() async {
 void loadFCM() async {
   if (!kIsWeb) {
     AndroidNotificationChannel channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'Message Channel', // title
-      importance: Importance.high,
-      enableVibration: true,
-    );
+        'messageChannelID', // id
+        'Message Channel', // title
+        enableVibration: true,
+        importance: Importance.high,
+        playSound: true);
 
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
