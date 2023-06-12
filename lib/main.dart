@@ -8,6 +8,8 @@ import 'package:dex_messenger/data/states/recent_chat_provider.dart';
 import 'package:dex_messenger/data/states/recent_room_chat_provider.dart';
 import 'package:dex_messenger/data/states/search_controller_provider.dart';
 import 'package:dex_messenger/data/states/user_info_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +42,9 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   // await NotificationService.init();
 

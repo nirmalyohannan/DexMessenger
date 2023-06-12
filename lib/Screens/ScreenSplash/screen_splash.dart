@@ -28,8 +28,8 @@ class _ScreenSplashState extends State<ScreenSplash> {
   void initialise() async {
     await Hive.initFlutter();
     log('Hive initialised');
-    await Firebase.initializeApp();
-    log("::::::FireaBase initialised");
+    // await Firebase.initializeApp();
+    // log("::::::FireaBase initialised");
 
     if (context.mounted) {
       context.read<LiveEmojisProvider>().initiate();
